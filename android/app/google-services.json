@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909705170922",
+    "project_id": "tembea-4d3c6",
+    "storage_bucket": "tembea-4d3c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909705170922:android:22eba9e4ec63300b026c93",
+        "android_client_info": {
+          "package_name": "com.kakulebulembo.tembea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909705170922-9no2o602tmma18anibk2j1h7da9retoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9x-nb1401W9X54Qf1MhutWJHneZjnB8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909705170922-9no2o602tmma18anibk2j1h7da9retoo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
