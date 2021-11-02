@@ -3,6 +3,8 @@ import 'package:tembea/screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'screens/admin/dashboard_screen.dart';
+import 'constants.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,16 +18,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: kBackgroundColor,
+        canvasColor: kSecondaryColor,
         textTheme: const TextTheme(
           bodyText1: TextStyle(color: Colors.white),
         ),
       ),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: DashboardScreen.id,
       routes: {
         WelcomeScreen.id : (context) => const WelcomeScreen(),
         LoginScreen.id : (context) => const LoginScreen(),
         RegistrationScreen.id : (context) => const RegistrationScreen(),
+        DashboardScreen.id : (context) => const DashboardScreen(),
       },
     );
 

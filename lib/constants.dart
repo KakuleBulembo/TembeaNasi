@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+
+const kPrimaryColor = Color(0xFF2697FF);
+const kSecondaryColor = Color(0xFF2A2D3E);
+const kBackgroundColor = Color(0xFF212332);
+
 const kInputDecoration = InputDecoration(
   hintText: 'Enter value',
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -24,3 +29,4 @@ const kInputDecoration = InputDecoration(
     ),
   ),
 );
+
