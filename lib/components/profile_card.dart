@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tembea/constants.dart';
+import 'responsive.dart';
 
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
@@ -17,8 +18,9 @@ class ProfileCard extends StatelessWidget {
         border: Border.all(color: Colors.white10),
       ),
       child: Row(
-        children: const [
-          Padding(
+        children:  [
+          if(!Responsive.isMobile(context))
+          const Padding(
             padding:  EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               'kakulebulembo@gmail.com',
@@ -27,7 +29,7 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
           ),
-          Icon(Icons.keyboard_arrow_down)
+          const Icon(Icons.keyboard_arrow_down)
         ],
       ),
     );

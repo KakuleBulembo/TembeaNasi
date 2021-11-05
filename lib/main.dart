@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tembea/screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/admin/dashboard_screen.dart';
 import 'constants.dart';
+import 'components/menu_controller.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => MenuController(),
+            ),
+          ],
+      child : const MyApp()
+      ),
+  );
 }
 
 class MyApp extends StatelessWidget {

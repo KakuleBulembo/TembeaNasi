@@ -22,6 +22,16 @@ class DrawerMenu extends StatelessWidget {
                 onPressed: (){},
               ),
               DrawerListTitle(
+                  title: 'Profile',
+                  svgSource: 'assets/icons/menu_profile.svg',
+                  onPressed: (){}
+              ),
+              DrawerListTitle(
+                  title: 'Users',
+                  svgSource: 'assets/icons/menu_users.svg',
+                  onPressed: (){}
+              ),
+              DrawerListTitle(
                   title: 'Events',
                   svgSource: 'assets/icons/menu_events.svg',
                   onPressed: (){}
@@ -29,6 +39,11 @@ class DrawerMenu extends StatelessWidget {
               DrawerListTitle(
                   title: 'Libraries',
                   svgSource: 'assets/icons/menu_libraries.svg',
+                  onPressed: (){}
+              ),
+              DrawerListTitle(
+                  title: 'Music Club',
+                  svgSource: 'assets/icons/menu_music.svg',
                   onPressed: (){}
               ),
               DrawerListTitle(
@@ -42,13 +57,13 @@ class DrawerMenu extends StatelessWidget {
                   onPressed: (){}
               ),
               DrawerListTitle(
-                  title: 'Hotels and Restaurants',
-                  svgSource: 'assets/icons/menu_hotels.svg',
+                  title: 'Restaurants',
+                  svgSource: 'assets/icons/menu_restaurants.svg',
                   onPressed: (){}
               ),
               DrawerListTitle(
-                  title: 'Profile',
-                  svgSource: 'assets/icons/menu_profile.svg',
+                  title: 'Hotels',
+                  svgSource: 'assets/icons/menu_hotels.svg',
                   onPressed: (){}
               ),
             ],
