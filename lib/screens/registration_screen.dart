@@ -127,7 +127,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                     });
                     if(user != null){
-                      print('User registered');
+                      Navigator.pushReplacementNamed(context, LoginScreen.id);
                     }
                   }
                   else{

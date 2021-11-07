@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/admin/dashboard_screen.dart';
 import 'constants.dart';
 import 'components/menu_controller.dart';
+import 'screens/user/user_home.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: Colors.white),
         ),
       ),
-      initialRoute: DashboardScreen.id,
+      initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id : (context) => const WelcomeScreen(),
         LoginScreen.id : (context) => const LoginScreen(),
         RegistrationScreen.id : (context) => const RegistrationScreen(),
         DashboardScreen.id : (context) => const DashboardScreen(),
+        UserHome.id : (context) => const UserHome(),
       },
     );
 

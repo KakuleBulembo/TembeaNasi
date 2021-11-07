@@ -4,6 +4,11 @@ import 'package:tembea/components/rounded_button.dart';
 import 'package:tembea/constants.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'registration_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tembea/screens/admin/dashboard_screen.dart';
+import 'package:tembea/screens/user/user_home.dart';
+
  
 
 class LoginScreen extends StatefulWidget {
@@ -15,6 +20,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //final _formKey = GlobalKey<FormState>();
+  late String email;
+  late String password;
+  final _auth = FirebaseAuth.instance;
+  bool role = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +52,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 48.0,
                     ),
-                    TextField(
+                    TextFormField(
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
                       ),
                       keyboardType: TextInputType.emailAddress,
-                      onChanged: (value){},
+                      onChanged: (value){
+                        email = value;
+                      },
                       decoration: kInputDecoration.copyWith(
                         hintText: 'Enter email',
                       ),
@@ -55,14 +68,16 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 48.0,
             ),
-            TextField(
+            TextFormField(
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
               ),
               obscureText: true,
               keyboardType: TextInputType.emailAddress,
-              onChanged: (value){},
+              onChanged: (value){
+                password = value;
+              },
               decoration: kInputDecoration.copyWith(
                 hintText: 'Enter password',
               ),
@@ -74,7 +89,33 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedButton(
                 buttonName: 'Login',
                 color: Colors.green,
-                onPressed: (){},
+                onPressed: () async{
+                  try{
+                    await _auth.signInWithEmailAndPassword(email: email, password: password);
+                    User? currentUser = _auth.currentUser;
+                    final DocumentSnapshot snap =
+                    await FirebaseFirestore
+                        .instance.collection("users")
+                        .doc(currentUser!.uid).get();
+                    role = snap['role'];
+                    if(currentUser != null){
+                      if(role == true){
+                        Navigator.pushReplacementNamed(context, DashboardScreen.id);
+                      }
+                      else if(role == false){
+
+                        Navigator.pushReplacementNamed(context, UserHome.id);
+                      }
+                    }
+                    else{
+                      print('Cannot connect  connect');
+                    }
+                  }
+                  catch(e){
+                    print(e);
+                  }
+                },
+
             ),
             const SizedBox(
               height: 48,
