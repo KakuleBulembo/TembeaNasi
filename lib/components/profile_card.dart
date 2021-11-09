@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tembea/constants.dart';
 import 'responsive.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfileCard extends StatelessWidget {
-  const ProfileCard({
+class ProfileCard extends StatefulWidget {
+   const ProfileCard({
     Key? key,
   }) : super(key: key);
+
+
+  @override
+  State<ProfileCard> createState() => _ProfileCardState();
+}
+
+class _ProfileCardState extends State<ProfileCard> {
+  String? email = FirebaseAuth.instance.currentUser!.email;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +29,11 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         children:  [
           if(!Responsive.isMobile(context))
-          const Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 8.0),
+           Padding(
+            padding: const  EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              'kakulebulembo@gmail.com',
-              style: TextStyle(
+              email != null ? email! : 'No email',
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),

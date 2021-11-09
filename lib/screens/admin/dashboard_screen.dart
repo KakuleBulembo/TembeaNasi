@@ -3,10 +3,11 @@ import 'package:tembea/components/menu_controller.dart';
 import 'package:tembea/constants.dart';
 import 'package:tembea/screens/admin/admin_components/drawer_menu.dart';
 import 'package:tembea/screens/admin/admin_components/header_dashboard.dart';
-import 'package:tembea/screens/admin/admin_components/admin_analysis.dart';
-import 'package:tembea/screens/admin/admin_components/dashboard_body.dart';
+import 'package:tembea/screens/admin/admin_screens/dashboard_body.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:provider/provider.dart';
+import 'package:tembea/screens/admin/admin_screens/dashboard_users.dart';
+import 'admin_screens/dashbord_events.dart';
 
 
 class DashboardScreen extends StatefulWidget {
@@ -18,21 +19,34 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size ;
     return Scaffold(
       key: context.read<MenuController>().scaffoldKey,
-      drawer: const DrawerMenu(),
+      drawer:  DrawerMenu(
+        onIndexChanged: (int value){
+          setState(() {
+            selectedIndex = value;
+          });
+
+      }, selectedIndex: selectedIndex,),
       backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:   [
             if(Responsive.isWeb(context))
-             const Expanded(
+              Expanded(
               //Default flex= 1
-              child:  DrawerMenu(),
+              child:  DrawerMenu(
+                onIndexChanged: (int value){
+                  setState(() {
+                    selectedIndex = value;
+                  });
+                }, selectedIndex: selectedIndex,),
             ),
             Expanded(
               //Takes 5/6 screen space
@@ -46,6 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                        const SizedBox(
                          height: 16.0,
                        ),
+                      if(selectedIndex == 1 || selectedIndex == 0)
                       Responsive(
                           mobile:  AdminInfoGrid(
                             childAspectRatio: _size.width < 700 ? 1.3 : 1,
@@ -56,6 +71,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
                           ),
                       ),
+                      if(selectedIndex == 2)
+                        Text('Profile'),
+                      if(selectedIndex == 3)
+                        const DashboardUsers(),
+                      if(selectedIndex == 4)
+                        const DashboardEvent(),
                     ],
                   ),
                 ),
@@ -68,30 +89,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class AdminInfoGrid extends StatelessWidget {
-  const AdminInfoGrid({
-    Key? key,
-    this.crossAxisCount = 4,
-    this.childAspectRatio = 1,
-  }) : super(key: key);
-  final int crossAxisCount;
-  final double childAspectRatio;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: adminAnalysis.length,
-      shrinkWrap: true,
-        gridDelegate:
-         SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: 16.0,
-            mainAxisSpacing: 16.0,
-          childAspectRatio: childAspectRatio,
-        ),
-        itemBuilder: (context, index)  => AdminInfoAnalysis(info: adminAnalysis[index],),
-    );
-  }
-}
 

@@ -111,3 +111,30 @@ class ProgressLine extends StatelessWidget {
     );
   }
 }
+
+class AdminInfoGrid extends StatelessWidget {
+  const AdminInfoGrid({
+    Key? key,
+    this.crossAxisCount = 4,
+    this.childAspectRatio = 1,
+  }) : super(key: key);
+  final int crossAxisCount;
+  final double childAspectRatio;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: adminAnalysis.length,
+      shrinkWrap: true,
+      gridDelegate:
+      SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,
+        childAspectRatio: childAspectRatio,
+      ),
+      itemBuilder: (context, index)  => AdminInfoAnalysis(info: adminAnalysis[index],),
+    );
+  }
+}

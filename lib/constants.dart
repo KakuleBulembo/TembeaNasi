@@ -31,4 +31,22 @@ const kInputDecoration = InputDecoration(
   ),
 );
 
+const kTextColor = TextStyle(color: Colors.white);
+const kTextColor2 = TextStyle(color: Colors.white70);
 
+
+const kActivityForm = InputDecoration(
+  border:  UnderlineInputBorder(),
+  labelText: 'Enter a value',
+
+  enabledBorder:  UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.white,
+    ),
+  ),
+  focusedBorder: UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.blue,
+    ),
+  ),
+);

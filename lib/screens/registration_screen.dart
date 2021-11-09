@@ -118,17 +118,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onPressed: () async{
                 try{
                   if(confirmPassword == password){
-                    final user = await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) async{
+                    await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) async{
                       User? currentUser = FirebaseAuth.instance.currentUser;
                       await FirebaseFirestore.instance.collection("users").doc(currentUser!.uid).set({
                         'uid' : currentUser.uid,
                         'username': username,
                         'role' : isAdmin,
+                        'email': currentUser.email,
+                        'ts': DateTime.now(),
                       });
                     });
-                    if(user != null){
                       Navigator.pushReplacementNamed(context, LoginScreen.id);
-                    }
                   }
                   else{
                     print('Password does not match');
