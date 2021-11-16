@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tembea/screens/admin/admin_screens/dashbord_event.dart';
 import 'package:tembea/screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/registration_screen.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(color: Colors.white),
         ),
       ),
-      initialRoute: EventForm.id,
+      initialRoute: WelcomeScreen.id,
       routes: {
         WelcomeScreen.id : (context) => const WelcomeScreen(),
         LoginScreen.id : (context) => const LoginScreen(),
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         DashboardScreen.id : (context) => const DashboardScreen(),
         UserHome.id : (context) => const UserHome(),
         EventForm.id : (context) => const EventForm(),
+        DashboardEvent.id : (context) => const DashboardEvent(),
       },
     );
 
