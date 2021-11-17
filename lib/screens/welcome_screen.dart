@@ -31,11 +31,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: SizedBox(
 
                     child: Image.asset('assets/images/logo.png'),
-                    height: 100,
+                    height: 70,
                   ),
                 ),
                 const Text(
-                  'TembeaNasi',
+                  'Tembea',
                   style: TextStyle(
                     fontSize: 45.0,
                     color: Colors.white,

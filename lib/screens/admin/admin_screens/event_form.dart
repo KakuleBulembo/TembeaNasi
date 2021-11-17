@@ -42,6 +42,7 @@ class _EventFormState extends State<EventForm> {
   String? location;
   String? description;
   String? price;
+  TaskSnapshot? snap;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,12 @@ class _EventFormState extends State<EventForm> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: kBackgroundColor,
+        actions: const[
+           Icon(IconData(57492, fontFamily: 'MaterialIcons'))
+        ],
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(30),
@@ -66,7 +73,7 @@ class _EventFormState extends State<EventForm> {
               children: [
                 if(MediaQuery.of(context).viewInsets.bottom==0)
                   SizedBox(
-                    height: 150,
+                    height: 100,
                     width: 100,
                     child: Image.asset('assets/images/logo.png'),
                   ),
@@ -220,13 +227,14 @@ class _EventFormState extends State<EventForm> {
                                 await uploadFileWeb().then((value) => showToast(
                                   message: "Events Added Successfully",
                                   color: Colors.green,
-                                ));
+                                )).then((value) => Navigator.pop(context));
+
                               }
                               else{
                                 await uploadFile().then((value) => showToast(
                                   message: "Events Added Successfully",
                                   color: Colors.green,
-                                ));
+                                )).then((value) => Navigator.pop(context));
                               }
                             },
                             color: Colors.green,
@@ -310,17 +318,24 @@ class _EventFormState extends State<EventForm> {
     if(file == null) return;
     final fileName = basename(file!.path);
     final destination = 'events/$fileName';
-    task = await FirebaseApi.uploadFile(destination, file!)!.then((_) async{
-      await FirebaseFirestore.instance.collection('activities').doc().set({
-        'Name' : name,
-        'Location': location,
-        'Description' : description,
-        'Price' : price,
-        'Date' : date,
-        'PhotoUrl': destination,
-        'Type' : selectedType,
-      });
-    });
+    snap = await FirebaseApi.uploadFile(destination, file!);
+        if( snap!.state == TaskState.success){
+          final String downloadUrl= await snap!.ref.getDownloadURL();
+          DateTime time = DateTime.now();
+          await FirebaseFirestore.instance.collection('activities').doc().set({
+            'Name' : name,
+            'Location': location,
+            'Description' : description,
+            'Price' : price,
+            'Date' : date,
+            'PhotoUrl': downloadUrl,
+            'Type' : selectedType,
+            'ts' : time,
+          });
+        }
+        else{
+          const CircularProgressIndicator();
+        }
   }
 
   void selectWebImage(){
@@ -340,19 +355,26 @@ class _EventFormState extends State<EventForm> {
   Future<void> uploadFileWeb()async {
     final dateTime = DateTime.now();
     final path = 'events/$dateTime';
-    await FirebaseStorage.instance.refFromURL('gs://tembea-4d3c6.appspot.com')
+    snap = await FirebaseStorage.instance.refFromURL('gs://tembea-4d3c6.appspot.com')
         .child(path)
-        .putBlob(webFile).then((_) async{
+        .putBlob(webFile);
+    if( snap!.state == TaskState.success) {
+      final String downloadUrl = await snap!.ref.getDownloadURL();
+      DateTime time = DateTime.now();
       await FirebaseFirestore.instance.collection('activities').doc().set({
-        'Name' : name,
+        'Name': name,
         'Location': location,
-        'Description' : description,
-        'Price' : price,
-        'Date' : date,
-        'PhotoUrl': path,
-        'Type' : selectedType,
+        'Description': description,
+        'Price': price,
+        'Date': date,
+        'PhotoUrl': downloadUrl,
+        'Type': selectedType,
+        'ts': time,
       });
-    });
+    }
+    else{
+      const CircularProgressIndicator();
+    }
   }
 }
 

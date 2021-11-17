@@ -64,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       if(selectedIndex == 1 || selectedIndex == 0)
                       Responsive(
                           mobile:  AdminInfoGrid(
-                            childAspectRatio: _size.width < 700 ? 1.3 : 1,
+                            childAspectRatio: _size.width < 700 ? 1.1 : 1,
                             crossAxisCount: _size.width < 700 ? 2 : 4,
                           ),
                           tablet: const AdminInfoGrid(),

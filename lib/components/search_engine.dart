@@ -25,7 +25,7 @@ class SearchEngine extends StatelessWidget {
             padding: const  EdgeInsets.all(16.0 * 0.75),
             margin: const EdgeInsets.symmetric(horizontal: 8.0),
             decoration: const BoxDecoration(
-              color: Colors.green,
+              color: Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(10.0),),
             ),
             child: SvgPicture.asset('assets/icons/Search.svg'),

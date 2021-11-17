@@ -46,9 +46,10 @@ class _DashboardUsersState extends State<DashboardUsers> {
                     final isAdmin = userDetail.data()['role'];
                     final userData = DataRow(
                       cells: [
-                        DataCell(
+                        if(Responsive.isWeb(context))
+                          DataCell(
                             Text(userUsername, style: kTextColor2),
-                        ),
+                          ),
                         DataCell(
                           Text(userEmail, style: kTextColor2),
                         ),
@@ -60,20 +61,21 @@ class _DashboardUsersState extends State<DashboardUsers> {
                     usersData.add(userData);
                   }
                   return DataTable(
-                      columns: const [
-                        DataColumn(
-                          label: Text(
-                            'Username',
-                            style: kTextColor,
+                      columns: [
+                        if(Responsive.isWeb(context))
+                          const DataColumn(
+                            label: Text(
+                              'Username',
+                              style: kTextColor,
+                            ),
                           ),
-                        ),
-                        DataColumn(
+                        const DataColumn(
                           label: Text(
                             'Email',
                             style: kTextColor,
                           ),
                         ),
-                        DataColumn(
+                        const DataColumn(
                           label: Text(
                             'isAdmin',
                             style: kTextColor,
