@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tembea/screens/admin/admin_screens/dashbord_event.dart';
@@ -10,6 +11,7 @@ import 'constants.dart';
 import 'components/menu_controller.dart';
 import 'screens/user/user_home.dart';
 import 'screens/admin/admin_screens/event_form.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DocumentSnapshot data;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(

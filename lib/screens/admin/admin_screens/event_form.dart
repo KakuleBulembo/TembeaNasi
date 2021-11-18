@@ -15,6 +15,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:universal_html/html.dart' as res;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class EventForm extends StatefulWidget {
   const EventForm({Key? key}) : super(key: key);
@@ -43,6 +44,7 @@ class _EventFormState extends State<EventForm> {
   String? description;
   String? price;
   TaskSnapshot? snap;
+  bool showSpinner = true;
 
   @override
   Widget build(BuildContext context) {
@@ -66,185 +68,200 @@ class _EventFormState extends State<EventForm> {
            Icon(IconData(57492, fontFamily: 'MaterialIcons'))
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                if(MediaQuery.of(context).viewInsets.bottom==0)
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.asset('assets/images/logo.png'),
-                  ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                 Container(
-                   padding: const EdgeInsets.only(top: 30, left: 30, right: 30.0, bottom: 30),
-                  decoration: const BoxDecoration(
-                    color: kSecondaryColor,
-                  ),
-
-                    width: 400,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:  [
-                      Text(
-                      'Event',
-                      style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+      body: ModalProgressHUD(
+        color: Colors.blue,
+        inAsyncCall: showSpinner,
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  if(MediaQuery.of(context).viewInsets.bottom==0)
+                    SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.asset('assets/images/logo.png'),
                     ),
-                   SizedBox(
-                     height: 16,
-                     child: Container(
-                       width: double.infinity,
-                       color: kSecondaryColor.withOpacity(0.9),
-                     ),
-                   ),
-                   TextFormField(
-                     textAlign: TextAlign.center,
-                     cursorColor: Colors.blue,
-                     style: const TextStyle(
-                       color: Colors.white,
-                     ),
-                     decoration:  kActivityForm.copyWith(
-                         labelText: 'Event\'s Name'
-                     ),
-                     onChanged: (value){
-                       name = value;
-                     },
-                   ),
-                   const SizedBox(
-                     height: 10,
-                   ),
-                   TextFormField(
-                     textAlign: TextAlign.center,
-                     cursorColor: Colors.blue,
-                     style: const TextStyle(
-                       color: Colors.white,
-                     ),
-                     decoration:  kActivityForm.copyWith(
-                         labelText: 'Event\'s Location'
-                     ),
-                     onChanged: (value){
-                       location = value;
-                     },
-                   ),
-                   const SizedBox(
-                     height: 30,
-                   ),
-                   TextFormField(
-                     textAlign: TextAlign.center,
-                     cursorColor: Colors.blue,
-                     style: const TextStyle(
-                       color: Colors.white,
-                     ),
-                     decoration:  kActivityForm.copyWith(
-                         labelText: 'Event\'s description',
-                       border: const OutlineInputBorder(),
-                       enabledBorder: const OutlineInputBorder(
-                         borderSide: BorderSide(
-                           color: Colors.white,
-                         ),
-                       ),
-                       focusedBorder: const OutlineInputBorder(
-                         borderSide: BorderSide(
-                           color: Colors.blue,
-                         ),
-                       ),
-                       isDense: true,
-                     ),
-                       maxLines: 7,
-                       minLines: 4,
-                     onChanged: (value){
-                       description = value;
-                     }
-                   ),
-                   const SizedBox(
-                     height: 10,
-                   ),
-                   TextFormField(
-                     textAlign: TextAlign.center,
-                     cursorColor: Colors.blue,
-                     style: const TextStyle(
-                       color: Colors.white,
-                     ),
-                     decoration:  kActivityForm.copyWith(
-                         labelText: 'Event\'s participation price',
-                     ),
-                     onChanged: (value){
-                       price = value;
-                     }
-                   ),
-
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        DateButton(
-                            onPressed: (){
-                              pickDateTime(context);
-                            },
-                          text: getText(),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        DateButton(
-                          text: "Select Image",
-                          onPressed: () {
-                            kIsWeb ? selectWebImage() : selectFile();
-                          }
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        Center(
-                          child: Text(
-                            fileName!,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                color: Colors.white70
-                              )
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: kIsWeb ? androidDropdownPicker() : iOSPicker(),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Center(
-                          child: RoundedButton(
-                            buttonName: 'Add Event',
-                            onPressed: () async{
-                              if(kIsWeb){
-                                await uploadFileWeb().then((value) => showToast(
-                                  message: "Events Added Successfully",
-                                  color: Colors.green,
-                                )).then((value) => Navigator.pop(context));
-
-                              }
-                              else{
-                                await uploadFile().then((value) => showToast(
-                                  message: "Events Added Successfully",
-                                  color: Colors.green,
-                                )).then((value) => Navigator.pop(context));
-                              }
-                            },
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                   Container(
+                     padding: const EdgeInsets.only(top: 30, left: 30, right: 30.0, bottom: 30),
+                    decoration: const BoxDecoration(
+                      color: kSecondaryColor,
                     ),
-                ),
-              ],
-            ),
+
+                      width: 400,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:  [
+                        Text(
+                        'Event',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                      ),
+                     SizedBox(
+                       height: 16,
+                       child: Container(
+                         width: double.infinity,
+                         color: kSecondaryColor.withOpacity(0.9),
+                       ),
+                     ),
+                     TextFormField(
+                       textAlign: TextAlign.center,
+                       cursorColor: Colors.blue,
+                       style: const TextStyle(
+                         color: Colors.white,
+                       ),
+                       decoration:  kActivityForm.copyWith(
+                           labelText: 'Event\'s Name'
+                       ),
+                       onChanged: (value){
+                         name = value;
+                       },
+                     ),
+                     const SizedBox(
+                       height: 10,
+                     ),
+                     TextFormField(
+                       textAlign: TextAlign.center,
+                       cursorColor: Colors.blue,
+                       style: const TextStyle(
+                         color: Colors.white,
+                       ),
+                       decoration:  kActivityForm.copyWith(
+                           labelText: 'Event\'s Location'
+                       ),
+                       onChanged: (value){
+                         location = value;
+                       },
+                     ),
+                     const SizedBox(
+                       height: 30,
+                     ),
+                     TextFormField(
+                       textAlign: TextAlign.center,
+                       cursorColor: Colors.blue,
+                       style: const TextStyle(
+                         color: Colors.white,
+                       ),
+                       decoration:  kActivityForm.copyWith(
+                           labelText: 'Event\'s description',
+                         border: const OutlineInputBorder(),
+                         enabledBorder: const OutlineInputBorder(
+                           borderSide: BorderSide(
+                             color: Colors.white,
+                           ),
+                         ),
+                         focusedBorder: const OutlineInputBorder(
+                           borderSide: BorderSide(
+                             color: Colors.blue,
+                           ),
+                         ),
+                         isDense: true,
+                       ),
+                         maxLines: 7,
+                         minLines: 4,
+                       onChanged: (value){
+                         description = value;
+                       }
+                     ),
+                     const SizedBox(
+                       height: 10,
+                     ),
+                     TextFormField(
+                       textAlign: TextAlign.center,
+                       cursorColor: Colors.blue,
+                       style: const TextStyle(
+                         color: Colors.white,
+                       ),
+                       decoration:  kActivityForm.copyWith(
+                           labelText: 'Event\'s participation price',
+                       ),
+                       onChanged: (value){
+                         price = value;
+                       }
+                     ),
+
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          DateButton(
+                              onPressed: (){
+                                pickDateTime(context);
+                              },
+                            text: getText(),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          DateButton(
+                            text: "Select Image",
+                            onPressed: () {
+                              kIsWeb ? selectWebImage() : selectFile();
+                            }
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Center(
+                            child: Text(
+                              fileName!,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  color: Colors.white70
+                                )
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          Container(
+                            height: 50,
+                            alignment: Alignment.center,
+                            child: kIsWeb ? androidDropdownPicker() : iOSPicker(),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Center(
+                            child: RoundedButton(
+                              buttonName: 'Add Event',
+                              onPressed: () async{
+                                setState(() {
+                                  showSpinner = true;
+                                });
+                                if(kIsWeb){
+                                  await uploadFileWeb().then((value) => showToast(
+                                    message: "Events Added Successfully",
+                                    color: Colors.green,
+                                  ));
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                  Navigator.pop(context);
+                                }
+                                else{
+                                  await uploadFile().then((value) => showToast(
+                                    message: "Events Added Successfully",
+                                    color: Colors.green,
+                                  )).then((value) {
+                                    setState(() {
+                                      showSpinner = true;
+                                    });
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ),
+                ],
+              ),
+          ),
         ),
       ),
     );
