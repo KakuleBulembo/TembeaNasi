@@ -392,8 +392,3 @@ class _EventFormState extends State<EventForm> {
     }
   }
 }
-
-
-
-
-

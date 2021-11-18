@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
+import 'package:flutter/foundation.dart';
 
 class ViewData extends StatefulWidget {
    const ViewData({
@@ -22,7 +24,7 @@ class _ViewDataState extends State<ViewData> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor.withOpacity(0.3),
+        backgroundColor: kBackgroundColor,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -32,16 +34,195 @@ class _ViewDataState extends State<ViewData> {
               child: Stack(
                 children: [
                   Container(
-                    height: 500,
-                    color: Colors.green.withOpacity(0.3),
-                  )
+                    padding: EdgeInsets.only(
+                        top: size.height * 0.12,
+                      left: 8.0,
+                      right: 8.0
+                    ),
+                    margin: EdgeInsets.only(top: size.height * 0.3),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.3),
+                      borderRadius:const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24)
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 60.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Center(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text('Location'),
+                                      Text(
+                                        widget.item['Location'],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .copyWith(
+                                          fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text('Date'),
+                                      Text(
+                                        DateFormat('dd-MM-yyyy').
+                                        format(DateTime.fromMicrosecondsSinceEpoch(widget.item['Date'].microsecondsSinceEpoch)),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                              padding:const EdgeInsets.only(
+                                top: 16.0,
+                                left: 30,
+                                right: 30,
+                              ),
+                            child: Text(
+                              widget.item['Description'],
+                              style:const TextStyle(
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              (defaultTargetPlatform != TargetPlatform.iOS || defaultTargetPlatform != TargetPlatform.android) ? Expanded(
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18),
+                                        ),
+                                        primary: kBackgroundColor,
+                                        padding: const EdgeInsets.symmetric(horizontal: 16.0 * 1.5, vertical: 16.0),
+                                      ),
+                                      child:Text(
+                                        'Edit Activity'.toUpperCase(),
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: (){},
+                                    ),
+                                  ),
+                                ),
+                              ) : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: SizedBox(
+                              height: 50,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  primary: kBackgroundColor,
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0 * 1.5, vertical: 16.0),
+                                ),
+                                child:Text(
+                                  'Edit Activity'.toUpperCase(),
+                                  style: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                onPressed: (){},
+                              ),
+                            ),
+                          ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Activity'),
+                        Text(
+                          widget.item['Name'],
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
+                              .copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        Row(
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: 'Price\n'
+                                    ),
+                                  TextSpan(
+                                      text: 'Ksh ${widget.item['Price']}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4!
+                                          .copyWith(
+                                          color: Colors.white,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                  ),
+                                ]
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: CircleAvatar(
+                                  radius: 90.0,
+                                  backgroundImage: NetworkImage(widget.item['PhotoUrl']),
+                                )
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-//widget.item['Name']
