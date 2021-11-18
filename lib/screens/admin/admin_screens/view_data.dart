@@ -21,6 +21,7 @@ class _ViewDataState extends State<ViewData> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
+        backgroundColor: kBackgroundColor.withOpacity(0.3),
         title: Text(widget.item['Name']),
       ),
     );

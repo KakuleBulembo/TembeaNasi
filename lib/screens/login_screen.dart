@@ -30,11 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: kBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: ModalProgressHUD(
-          color: Colors.blue,
+          color: Colors.transparent,
           inAsyncCall: showSpinner,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -124,6 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                     }
                     catch(e){
+                      setState(() {
+                        showSpinner = false;
+                      });
                       print(e);
                     }
                   },

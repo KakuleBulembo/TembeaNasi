@@ -44,7 +44,7 @@ class _EventFormState extends State<EventForm> {
   String? description;
   String? price;
   TaskSnapshot? snap;
-  bool showSpinner = true;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +63,11 @@ class _EventFormState extends State<EventForm> {
       resizeToAvoidBottomInset: false,
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: kBackgroundColor,
-        actions: const[
-           Icon(IconData(57492, fontFamily: 'MaterialIcons'))
-        ],
+        title: const Text('Add Event'),
+        backgroundColor: kBackgroundColor.withOpacity(0.3),
       ),
       body: ModalProgressHUD(
-        color: Colors.blue,
+        color: kBackgroundColor,
         inAsyncCall: showSpinner,
         child: Center(
           child: SingleChildScrollView(
