@@ -55,6 +55,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                     itemCount: data.size,
                     itemBuilder: (context, index){
                       if(data.docs[index]['Type'] == 'Event'){
+                        String url = data.docs[index]['PhotoUrl'];
                         return Column(
                           children: [
                             Row(
@@ -63,7 +64,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                 CircleAvatar(
                                   backgroundColor: Colors.transparent,
                                   radius: 40,
-                                  child: Image.network(data.docs[index]['PhotoUrl']),
+                                  child: url != null ? Image.network(data.docs[index]['PhotoUrl']) : const CircularProgressIndicator(),
                                 ),
                                 Text( data.docs[index]['Name'], style:const TextStyle(
                                     color: Colors.white,
