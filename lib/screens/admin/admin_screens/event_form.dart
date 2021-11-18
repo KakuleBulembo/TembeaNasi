@@ -8,7 +8,6 @@ import 'package:tembea/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:tembea/components/rounded_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tembea/screens/admin/admin_components/activities_data.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tembea/screens/admin/admin_components/date_function.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,7 +48,7 @@ class _EventFormState extends State<EventForm> {
   @override
   Widget build(BuildContext context) {
     String? fileName ;
-    if(kIsWeb == true){
+    if(kIsWeb){
        setState(() {
          fileName = webFile != null ? 'Image Selected' : 'No Image Selected';
        });
@@ -74,36 +73,15 @@ class _EventFormState extends State<EventForm> {
             padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
-                  if(MediaQuery.of(context).viewInsets.bottom==0)
-                    SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.asset('assets/images/logo.png'),
-                    ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
                    Container(
                      padding: const EdgeInsets.only(top: 30, left: 30, right: 30.0, bottom: 30),
                     decoration: const BoxDecoration(
                       color: kSecondaryColor,
                     ),
-
                       width: 400,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:  [
-                        Text(
-                        'Event',
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
-                      ),
-                     SizedBox(
-                       height: 16,
-                       child: Container(
-                         width: double.infinity,
-                         color: kSecondaryColor.withOpacity(0.9),
-                       ),
-                     ),
                      TextFormField(
                        textAlign: TextAlign.center,
                        cursorColor: Colors.blue,
@@ -214,14 +192,7 @@ class _EventFormState extends State<EventForm> {
                           const SizedBox(
                             height: 30.0,
                           ),
-                          Container(
-                            height: 50,
-                            alignment: Alignment.center,
-                            child: kIsWeb ? androidDropdownPicker() : iOSPicker(),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
+
                           Center(
                             child: RoundedButton(
                               buttonName: 'Add Event',
@@ -280,42 +251,7 @@ class _EventFormState extends State<EventForm> {
       );
     });
   }
-  DropdownButton androidDropdownPicker() {
-    List<DropdownMenuItem<String>> dropdownItems = [];
-    for (String activity in activityTypeList) {
-      var newItem = DropdownMenuItem(
-        child: Text(activity, style: const TextStyle( color: Colors.white70),),
-        value: activity,
-      );
-      dropdownItems.add(newItem);
-    }
-    return DropdownButton<String>(
-      value: selectedType,
-      items: dropdownItems,
-      onChanged: (value) {
-        setState(() {
-          selectedType = value!;
-        });
-      },
-    );
-  }
 
-  CupertinoPicker iOSPicker() {
-    List<Text> pickerItems = [];
-    for (String activity in activityTypeList) {
-      pickerItems.add(Text(activity, style: const TextStyle( color: Colors.white70),));
-    }
-    return CupertinoPicker(
-      itemExtent: 32.0,
-      backgroundColor: Colors.transparent,
-      onSelectedItemChanged: (selectedIndex) {
-        setState(() {
-          selectedType = activityTypeList[selectedIndex];
-        });
-      },
-      children: pickerItems,
-    );
-  }
   Future selectFile() async{
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -358,7 +294,9 @@ class _EventFormState extends State<EventForm> {
     uploadInput.click();
 
     uploadInput.onChange.listen((event) {
-      webFile = uploadInput.files!.first;
+      setState(() {
+        webFile = uploadInput.files!.first; 
+      });
       final reader = res.FileReader();
       reader.readAsDataUrl(webFile!);
       reader.onLoadEnd.listen((event) {

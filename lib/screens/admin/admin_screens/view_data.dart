@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tembea/components/viewData/view_details_body.dart';
+import 'package:tembea/components/viewData/view_details_header.dart';
 
 import '../../../constants.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +30,7 @@ class _ViewDataState extends State<ViewData> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: 600,
             child: Column(
               children: [
@@ -52,188 +54,21 @@ class _ViewDataState extends State<ViewData> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 60.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Center(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          const Text('Location', style: TextStyle(color: Colors.white,)),
-                                          Text(
-                                            widget.item['Location'],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .copyWith(
-                                              fontSize: 18,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          const Text('Date',style: TextStyle(color: Colors.white,)),
-                                          Text(
-                                            DateFormat('dd-MM-yyyy').
-                                            format(DateTime.fromMicrosecondsSinceEpoch(widget.item['Date'].microsecondsSinceEpoch)),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline6!
-                                                .copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                  padding:const EdgeInsets.only(
-                                    top: 16.0,
-                                    left: 30,
-                                    right: 30,
-                                  ),
-                                child: Text(
-                                  widget.item['Description'],
-                                  style:const TextStyle(
-                                    height: 1.5,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              (defaultTargetPlatform != TargetPlatform.iOS || defaultTargetPlatform != TargetPlatform.android) ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(18),
-                                          ),
-                                          primary: kBackgroundColor,
-                                          padding: const EdgeInsets.symmetric(horizontal: 16.0 * 1.5, vertical: 16.0),
-                                        ),
-                                        child:Text(
-                                          'Edit Activity'.toUpperCase(),
-                                          style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        onPressed: (){},
-                                      ),
-                                    ),
-                                  ) ,
-                                ],
-                              ) : Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                      child: SizedBox(
-                                        height: 50,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                            primary: kBackgroundColor,
-                                            padding: const EdgeInsets.symmetric(horizontal: 16.0 * 1.5, vertical: 16.0),
-                                          ),
-                                          child:Text(
-                                            'Edit Activity'.toUpperCase(),
-                                            style: const TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          onPressed: (){},
-                                        ),
-                                      ),
-                                    ),
-                                  ) ,
-                                ],
-                              )
-                            ],
+                          child: ViewDetailsBody(
+                              location: widget.item['Location'],
+                              label: 'Date',
+                              labelData: DateFormat('dd-MM-yyyy')
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(widget.item['Date'].microsecondsSinceEpoch)),
+                          description: widget.item['Description'],
+                            buttonTitle: 'edit view',
+                            onPressedButton: (){},
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Activity', style: TextStyle(color: Colors.white,)),
-                            Text(
-                              widget.item['Name'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: 'Price\n',
-                                            style: TextStyle(color: Colors.white,)
-                                          ),
-                                        TextSpan(
-                                            text: 'Ksh ${widget.item['Price']}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline4!
-                                                .copyWith(
-                                                color: Colors.white,
-                                              fontWeight: FontWeight.bold
-                                            ),
-                                        ),
-                                      ]
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Expanded(
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius: 90.0,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                          widget.item['PhotoUrl'],
-                                        ),
-                                      ),
-                                    )
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                      ViewDetailsHeader(
+                        activityName: widget.item['Name'],
+                        activityPrice: 'Ksh ${widget.item['Price']}',
+                        activityUrl: widget.item['PhotoUrl'],
                       ),
                     ],
                   ),
