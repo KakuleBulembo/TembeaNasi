@@ -28,6 +28,7 @@ dependencies:
   fluttertoast: ^8.0.8
   universal_html: ^2.0.8
   modal_progress_hud: ^0.1.3
+  platform: ^3.0.2
   
 
 

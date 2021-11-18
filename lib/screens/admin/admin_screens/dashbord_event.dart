@@ -7,8 +7,7 @@ import 'package:tembea/components/show_dialog.dart';
 import 'package:tembea/screens/admin/admin_screens/view_data.dart';
 import 'event_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io' show Platform;
-
+import 'package:flutter/foundation.dart';
 
 
 class DashboardEvent extends StatefulWidget {
@@ -98,28 +97,25 @@ class _DashboardEventState extends State<DashboardEvent> {
                                   addLabel: 'Delete Event',
                                   color: Colors.red,
                                   onPressed: () {
-
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context){
+                                          return ShowDialog(
+                                            deleteFunction: () async{
+                                              await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                                FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
+                                                myTransaction.delete(snapshot.data!.docs[index].reference);
+                                              });
+                                            },
+                                            dialogTitle: "Delete",
+                                            dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
+                                          );
+                                        });
                                   },
                                   icon: const Icon(Icons.delete_outline,),
                                 ): InkWell(
                                   onTap: (){
-                                    if(!Platform.isIOS){
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context){
-                                            return ShowDialog(
-                                              deleteFunction: () async{
-                                                await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
-                                                  FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
-                                                  myTransaction.delete(snapshot.data!.docs[index].reference);
-                                                });
-                                              },
-                                              dialogTitle: "Delete",
-                                              dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
-                                            );
-                                          });
-                                    }
-                                    else{
+                                    if(defaultTargetPlatform == TargetPlatform.iOS){
                                       showCupertinoDialog(
                                           context: context,
                                           builder: (BuildContext context){
@@ -135,7 +131,38 @@ class _DashboardEventState extends State<DashboardEvent> {
                                             );
                                           });
                                     }
-
+                                      else if((defaultTargetPlatform == TargetPlatform.android)){
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context){
+                                            return ShowDialog(
+                                              deleteFunction: () async{
+                                                await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                                  FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
+                                                  myTransaction.delete(snapshot.data!.docs[index].reference);
+                                                });
+                                              },
+                                              dialogTitle: "Delete",
+                                              dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
+                                            );
+                                          });
+                                    }
+                                      else{
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context){
+                                            return ShowDialog(
+                                              deleteFunction: () async{
+                                                await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                                                  FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
+                                                  myTransaction.delete(snapshot.data!.docs[index].reference);
+                                                });
+                                              },
+                                              dialogTitle: "Delete",
+                                              dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
+                                            );
+                                          });
+                                    }
                                   },
                                   child:  const Icon(Icons.delete_outline,),
                                 ),
@@ -148,7 +175,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                           ],
                         );
                       }
-                      return Container();
+                      return const Text('Failed', style: TextStyle(color: Colors.white));
                     });
               }
               return const Center(

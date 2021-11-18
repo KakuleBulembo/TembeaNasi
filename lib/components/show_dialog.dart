@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
+
+
 
 class ShowDialog extends StatelessWidget {
   const ShowDialog({
@@ -68,25 +70,7 @@ class ShowDialog extends StatelessWidget {
         ),
       onPressed: deleteFunction,
     );
-    if(Platform.isAndroid){
-      return AlertDialog(
-        title: Text(dialogTitle, style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-        content: Text(dialogContent, style:const TextStyle(color: Colors.white),),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                width: 50,
-              ),
-              cancelButton,
-              deleteButton
-            ],
-          )
-        ],
-      );
-    }
-    else{
+    if(defaultTargetPlatform == TargetPlatform.iOS){
       return CupertinoAlertDialog(
         title: Text(
           dialogTitle,
@@ -105,6 +89,42 @@ class ShowDialog extends StatelessWidget {
         actions: [
           cancelCupButton,
           deleteCupButton,
+        ],
+      );
+    }
+   else if((defaultTargetPlatform == TargetPlatform.android)){
+     return AlertDialog(
+       title: Text(dialogTitle, style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+       content: Text(dialogContent, style:const TextStyle(color: Colors.white),),
+       actions: [
+         Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             const SizedBox(
+               width: 50,
+             ),
+             cancelButton,
+             deleteButton
+           ],
+         )
+       ],
+     );
+   }
+   else{
+      return AlertDialog(
+        title: Text(dialogTitle, style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        content: Text(dialogContent, style:const TextStyle(color: Colors.white),),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                width: 50,
+              ),
+              cancelButton,
+              deleteButton
+            ],
+          )
         ],
       );
     }
