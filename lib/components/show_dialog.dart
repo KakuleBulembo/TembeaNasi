@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import '../constants.dart';
+
 
 
 class ShowDialog extends StatelessWidget {
@@ -94,6 +96,7 @@ class ShowDialog extends StatelessWidget {
     }
    else if((defaultTargetPlatform == TargetPlatform.android)){
      return AlertDialog(
+       backgroundColor: kBackgroundColor,
        title: Text(dialogTitle, style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
        content: Text(dialogContent, style:const TextStyle(color: Colors.white),),
        actions: [
@@ -112,18 +115,25 @@ class ShowDialog extends StatelessWidget {
    }
    else{
       return AlertDialog(
+        shape: const  RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))
+        ),
+        backgroundColor: kBackgroundColor,
         title: Text(dialogTitle, style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         content: Text(dialogContent, style:const TextStyle(color: Colors.white),),
         actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                width: 50,
-              ),
-              cancelButton,
-              deleteButton
-            ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  width: 50,
+                ),
+                cancelButton,
+                deleteButton
+              ],
+            ),
           )
         ],
       );
