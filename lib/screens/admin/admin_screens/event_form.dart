@@ -29,7 +29,7 @@ class _EventFormState extends State<EventForm> {
   String selectedType = 'Event';
   String getText() {
     if (date == null){
-      return "Select DateTime";
+      return "Select Date and Time";
     }
     else{
       return DateFormat('dd/MM/yyyy HH:mm').format(date!);

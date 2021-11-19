@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tembea/components/viewData/view_details_body.dart';
 import 'package:tembea/components/viewData/view_details_header.dart';
+import 'package:tembea/screens/admin/admin_screens/update_form.dart';
 
 import '../../../constants.dart';
 import 'package:flutter/foundation.dart';
@@ -57,11 +58,16 @@ class _ViewDataState extends State<ViewData> {
                           child: ViewDetailsBody(
                               location: widget.item['Location'],
                               label: 'Date',
-                              labelData: DateFormat('dd-MM-yyyy')
+                              labelData: DateFormat('dd/MM/yyyy')
                                   .format(DateTime.fromMicrosecondsSinceEpoch(widget.item['Date'].microsecondsSinceEpoch)),
                           description: widget.item['Description'],
                             buttonTitle: 'edit view',
-                            onPressedButton: (){},
+                            onPressedButton: (){
+                                Navigator
+                                    .push(context, MaterialPageRoute(builder: (context){
+                                      return UpdateForm(item: widget.item);
+                                }));
+                            },
                           ),
                         ),
                       ),
