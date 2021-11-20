@@ -280,6 +280,7 @@ class _EventFormState extends State<EventForm> {
             'Price' : price,
             'Date' : date,
             'PhotoUrl': downloadUrl,
+            'File' : fileName,
             'Type' : selectedType,
             'ts' : time,
           });

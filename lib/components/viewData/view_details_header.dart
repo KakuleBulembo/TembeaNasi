@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:tembea/constants.dart';
 
 class ViewDetailsHeader extends StatelessWidget {
   const ViewDetailsHeader({
     Key? key,
     required this.activityName,
     required this.activityPrice,
-    required this.activityUrl
+    required this.activityUrl,
+    required this.updateImageFunction
   }) : super(key: key);
 
   final String activityName;
   final String activityPrice;
   final String activityUrl;
+  final VoidCallback updateImageFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +65,30 @@ class ViewDetailsHeader extends StatelessWidget {
                 width: 20,
               ),
               Expanded(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 90.0,
-                    child: ClipOval(
-                      child: Image.network(
-                          activityUrl
+                  child: Stack(
+                    clipBehavior: Clip.none,
+
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: NetworkImage(activityUrl),
+                        radius: 90.0,
                       ),
-                    ),
-                  )
+                      Positioned(
+                          bottom: 0,
+                          right: -25,
+                          child: RawMaterialButton(
+                            onPressed: updateImageFunction,
+                            elevation: 2.0,
+                            fillColor: kBackgroundColor,
+                            child:const Icon(Icons.camera_alt_outlined, color: Colors.white,),
+                            padding:const EdgeInsets.all(15.0),
+                            shape: const CircleBorder(),
+                          )),
+                    ],
+                  ),
               ),
+
             ],
           ),
         ],

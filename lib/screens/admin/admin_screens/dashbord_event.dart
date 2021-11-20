@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tembea/components/add_button.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:tembea/components/show_dialog.dart';
+import 'package:tembea/components/show_toast.dart';
 import 'package:tembea/screens/admin/admin_screens/view_data.dart';
 import 'event_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -156,6 +157,8 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                 await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
                                                   FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
+                                                  Navigator.pop(context);
+                                                  showToast(message: 'Deleted Successfully', color: Colors.green);
                                                 });
                                               },
                                               dialogTitle: "Delete",
