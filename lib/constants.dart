@@ -50,3 +50,25 @@ const kActivityForm = InputDecoration(
     ),
   ),
 );
+
+const kTopRounded = RoundedRectangleBorder(
+  side: BorderSide(color: kSecondaryColor, width: 1),
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(30),
+    topRight: Radius.circular(30),
+  ),
+);
+
+const kBottomRounded =RoundedRectangleBorder(
+  side: BorderSide(color: kSecondaryColor, width: 1),
+  borderRadius: BorderRadius.only(
+    bottomLeft: Radius.circular(30),
+    bottomRight: Radius.circular(30),
+  ),
+);
+const kRoundedBorder = RoundedRectangleBorder(
+  side: BorderSide(color: kSecondaryColor, width: 1),
+  borderRadius: BorderRadius.all(
+    Radius.circular(0),
+  ),
+);

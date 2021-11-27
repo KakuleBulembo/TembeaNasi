@@ -17,7 +17,7 @@ class AddButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Events',
+          title,
           style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
         ),
         ButtonBlue(onPressed: onPressed, addLabel: addLabel, color: Colors.blue, icon:const Icon(Icons.add),),

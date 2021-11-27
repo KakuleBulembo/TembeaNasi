@@ -4,14 +4,14 @@ import 'package:tembea/components/responsive.dart';
 import 'package:tembea/constants.dart';
 
 class DrawerMenu extends StatefulWidget {
-   DrawerMenu({
+   const DrawerMenu({
     Key? key,
     required this.onIndexChanged,
     required this.selectedIndex,
   }) : super(key: key);
 
   final Function onIndexChanged;
-  late int selectedIndex;
+  final int selectedIndex;
 
   @override
   State<DrawerMenu> createState() => _DrawerMenuState();
@@ -26,7 +26,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
           child: Column(
             children: [
               DrawerHeader(
-                child: Image.asset('assets/images/logo.png'),
+                child: SizedBox(
+                  height: 20,
+                    child: Image.asset('assets/images/logo.png')
+                ),
               ),
               Container(
                 color: widget.selectedIndex == 1 ? Theme.of(context).primaryColorLight.withOpacity(0.1) : Colors.transparent,
@@ -87,9 +90,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
               Container(
                 color: widget.selectedIndex == 5 ? const Color(0xFFA4CDFF).withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Libraries',
+                    title: 'Restaurants',
                     selectedIndex: widget.selectedIndex == 5,
-                    svgSource: 'assets/icons/menu_libraries.svg',
+                    svgSource: 'assets/icons/menu_restaurants.svg',
                     onPressed: (){
                       widget.onIndexChanged(5);
                       if(Responsive.isMobile(context)){
@@ -99,11 +102,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 6 ? Colors.deepPurple.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 6 ? Colors.yellow.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Music Club',
+                    title: 'Hotels',
                     selectedIndex: widget.selectedIndex == 6,
-                    svgSource: 'assets/icons/menu_music.svg',
+                    svgSource: 'assets/icons/menu_hotels.svg',
                     onPressed: (){
                       widget.onIndexChanged(6);
                       if(Responsive.isMobile(context)){
@@ -113,11 +116,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 7 ? const Color(0xFF007EE5).withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 7 ? Colors.deepPurple.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Games',
+                    title: 'Music Club',
                     selectedIndex: widget.selectedIndex == 7,
-                    svgSource: 'assets/icons/menu_games.svg',
+                    svgSource: 'assets/icons/menu_music.svg',
                     onPressed: (){
                       widget.onIndexChanged(7);
                       if(Responsive.isMobile(context)){
@@ -127,11 +130,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 8 ? Colors.red.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 8 ? const Color(0xFF007EE5).withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Gyms',
+                    title: 'Games',
                     selectedIndex: widget.selectedIndex == 8,
-                    svgSource: 'assets/icons/menu_gyms.svg',
+                    svgSource: 'assets/icons/menu_games.svg',
                     onPressed: (){
                       widget.onIndexChanged(8);
                       if(Responsive.isMobile(context)){
@@ -141,11 +144,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 9 ? Colors.green.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 9 ? Colors.red.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Restaurants',
+                    title: 'Gyms',
                     selectedIndex: widget.selectedIndex == 9,
-                    svgSource: 'assets/icons/menu_restaurants.svg',
+                    svgSource: 'assets/icons/menu_gyms.svg',
                     onPressed: (){
                       widget.onIndexChanged(9);
                       if(Responsive.isMobile(context)){
@@ -155,11 +158,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 10 ? Colors.yellow.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 10 ? Colors.pink.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Hotels',
+                    title: 'Pools',
                     selectedIndex: widget.selectedIndex == 10,
-                    svgSource: 'assets/icons/menu_hotels.svg',
+                    svgSource: 'assets/icons/menu_pool.svg',
                     onPressed: (){
                       widget.onIndexChanged(10);
                       if(Responsive.isMobile(context)){
@@ -168,6 +171,21 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     }
                 ),
               ),
+              Container(
+                color: widget.selectedIndex == 11 ? Colors.green.withOpacity(0.1) : Colors.transparent,
+                child: DrawerListTitle(
+                    title: 'Book Clubs',
+                    selectedIndex: widget.selectedIndex == 11,
+                    svgSource: 'assets/icons/menu_libraries.svg',
+                    onPressed: (){
+                      widget.onIndexChanged(11);
+                      if(Responsive.isMobile(context)){
+                        Navigator.pop(context);
+                      }
+                    }
+                ),
+              ),
+
             ],
           ),
         ),

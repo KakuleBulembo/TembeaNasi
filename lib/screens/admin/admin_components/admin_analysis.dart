@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tembea/constants.dart';
 
 class AdminAnalysis {
   final String? svgSrc, total, title, highRated;
@@ -20,15 +19,6 @@ class AdminAnalysis {
 
 List adminAnalysis = [
   AdminAnalysis(
-    title: "Users",
-    total: "20 Users",
-    svgSrc: "assets/icons/menu_users.svg",
-    highRated: "",
-    color: kPrimaryColor,
-    percentage: 35,
-    onPressed: (){},
-  ),
-  AdminAnalysis(
     title: "Events",
     total: "120 Events",
     svgSrc: "assets/icons/menu_events.svg",
@@ -38,14 +28,24 @@ List adminAnalysis = [
     onPressed: (){},
   ),
   AdminAnalysis(
-    title: "Libraries",
-    total: "10 Libraries",
-    svgSrc: "assets/icons/menu_libraries.svg",
-    highRated: "High Rated: Nairobi Library",
-    color: const Color(0xFFA4CDFF),
-    percentage: 5,
+    title: "Restaurants",
+    total: "50 Restaurants",
+    svgSrc: "assets/icons/menu_restaurants.svg",
+    highRated: "High Rated: CJ's",
+    color: Colors.green,
+    percentage: 35,
     onPressed: (){},
   ),
+  AdminAnalysis(
+    title: "Hotels",
+    total: "35 Hotels",
+    svgSrc: "assets/icons/menu_hotels.svg",
+    highRated: "High Rated: Ibis Styles",
+    color: Colors.yellow,
+    percentage: 28,
+    onPressed: (){},
+  ),
+
   AdminAnalysis(
     title: "Music Clubs",
     total: "30 Music Clubs",
@@ -74,21 +74,21 @@ List adminAnalysis = [
     onPressed: (){},
   ),
   AdminAnalysis(
-    title: "Restaurants",
-    total: "50 Restaurants",
-    svgSrc: "assets/icons/menu_restaurants.svg",
-    highRated: "High Rated: CJ's",
-    color: Colors.green,
-    percentage: 35,
+    title: "Pools",
+    total: "20 pools",
+    svgSrc: "assets/icons/menu_pool.svg",
+    highRated: "High Rated: Anna",
+    color: Colors.pink,
+    percentage: 5,
     onPressed: (){},
   ),
   AdminAnalysis(
-    title: "Hotels",
-    total: "35 Hotels",
-    svgSrc: "assets/icons/menu_hotels.svg",
-    highRated: "High Rated: Ibis Styles",
-    color: Colors.yellow,
-    percentage: 28,
+    title: "Book Clubs",
+    total: "10 Libraries",
+    svgSrc: "assets/icons/menu_libraries.svg",
+    highRated: "High Rated: Nairobi Library",
+    color: const Color(0xFFA4CDFF),
+    percentage: 5,
     onPressed: (){},
   ),
 ];

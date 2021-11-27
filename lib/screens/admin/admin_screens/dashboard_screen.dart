@@ -7,7 +7,8 @@ import 'package:tembea/screens/admin/admin_screens/dashboard_body.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:tembea/screens/admin/admin_screens/dashboard_users.dart';
-import 'admin_screens/dashbord_event.dart';
+import 'package:tembea/screens/admin/admin_screens/restaurant/dashboard_restaurant.dart';
+import 'event/dashboard_event.dart';
 
 
 
@@ -78,6 +79,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         const DashboardUsers(),
                       if(selectedIndex == 4)
                         const DashboardEvent(),
+                      if(selectedIndex == 5)
+                        const DashboardRestaurant(),
                     ],
                   ),
                 ),

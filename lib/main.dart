@@ -1,16 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tembea/screens/admin/admin_screens/dashbord_event.dart';
-import 'package:tembea/screens/login_screen.dart';
+import 'package:tembea/screens/admin/admin_screens/event/dashboard_event.dart';
+import 'package:tembea/screens/admin/admin_screens/library/dashboard_library.dart';
+import 'package:tembea/screens/admin/admin_screens/restaurant/dashboard_restaurant.dart';
+import 'package:tembea/screens/admin/admin_screens/restaurant/form/restaurant_main_form.dart';
+import 'package:tembea/screens/auth/login_screen.dart';
 import 'screens/welcome_screen.dart';
-import 'screens/registration_screen.dart';
+import 'screens/auth/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/admin/dashboard_screen.dart';
+import 'screens/admin/admin_screens/dashboard_screen.dart';
 import 'constants.dart';
 import 'components/menu_controller.dart';
 import 'screens/user/user_home.dart';
-import 'screens/admin/admin_screens/event_form.dart';
+import 'screens/admin/admin_screens/event/event_form.dart';
 
 
 void main() async{
@@ -33,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DocumentSnapshot data;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
         UserHome.id : (context) => const UserHome(),
         EventForm.id : (context) => const EventForm(),
         DashboardEvent.id : (context) => const DashboardEvent(),
+        DashboardRestaurant.id : (context) => const DashboardRestaurant(),
+        DashboardLibrary.id: (context) => const DashboardLibrary(),
+        RestaurantMainForm.id : (context) => const RestaurantMainForm(),
       },
     );
 

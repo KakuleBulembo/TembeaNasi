@@ -21,7 +21,10 @@ class DashboardEvent extends StatefulWidget {
 
 class _DashboardEventState extends State<DashboardEvent> {
   final Stream<QuerySnapshot> activities = FirebaseFirestore
-      .instance.collection('activities').orderBy('ts', descending: true).snapshots();
+      .instance.collection('activities')
+      .where('Type', isEqualTo: 'Event')
+      .orderBy('ts', descending: true)
+      .snapshots();
 
 
   @override
@@ -46,7 +49,9 @@ class _DashboardEventState extends State<DashboardEvent> {
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
               if(snapshot.connectionState == ConnectionState.waiting){
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.green),
+                  ),
                 );
               }
               final data = snapshot.requireData;
@@ -56,7 +61,6 @@ class _DashboardEventState extends State<DashboardEvent> {
                     shrinkWrap: true,
                     itemCount: data.size,
                     itemBuilder: (context, index){
-                      if(data.docs[index]['Type'] == 'Event'){
                         return Column(
                           children: [
                             Row(
@@ -65,7 +69,9 @@ class _DashboardEventState extends State<DashboardEvent> {
                                 CircleAvatar(
                                   backgroundColor: Colors.transparent,
                                   radius: 40,
-                                  child:Image.network(data.docs[index]['PhotoUrl']),
+                                  child:Image.network(
+                                    data.docs[index]['PhotoUrl'],
+                                  ),
                                 ),
                                 Text( data.docs[index]['Name'], style:const TextStyle(
                                     color: Colors.white,
@@ -106,7 +112,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                               await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
                                                 FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                 myTransaction.delete(snapshot.data!.docs[index].reference);
-                                              });
+                                              }).then((value) => Navigator.pop(context));
                                             },
                                             dialogTitle: "Delete",
                                             dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
@@ -125,7 +131,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                 await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
                                                   FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
-                                                });
+                                                }).then((value) => Navigator.pop(context));
                                               },
                                               dialogTitle: "Delete",
                                               dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
@@ -141,7 +147,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                 await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
                                                   FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
-                                                });
+                                                }).then((value) => Navigator.pop(context));
                                               },
                                               dialogTitle: "Delete",
                                               dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
@@ -159,7 +165,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
                                                   Navigator.pop(context);
                                                   showToast(message: 'Deleted Successfully', color: Colors.green);
-                                                });
+                                                }).then((value) => Navigator.pop(context));
                                               },
                                               dialogTitle: "Delete",
                                               dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
@@ -177,8 +183,6 @@ class _DashboardEventState extends State<DashboardEvent> {
                             ),
                           ],
                         );
-                      }
-                      return const Text('Failed', style: TextStyle(color: Colors.white));
                     });
               }
               return const Center(

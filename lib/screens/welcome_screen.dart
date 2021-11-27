@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tembea/components/rounded_button.dart';
-import 'registration_screen.dart';
-import 'login_screen.dart';
+import 'auth/registration_screen.dart';
+import 'auth/login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
