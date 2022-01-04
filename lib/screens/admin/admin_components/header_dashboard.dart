@@ -35,8 +35,11 @@ class HeaderDashboard extends StatelessWidget {
                Spacer(
                  flex: Responsive.isWeb(context) ? 2 : 1,
                ),
-                const Expanded(
-                   child: SearchEngine(),
+                Expanded(
+                   child: SearchEngine(
+                     onChanged: (value){},
+                     text: '',
+                   ),
                ),
                const ProfileCard(),
              ],

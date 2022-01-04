@@ -132,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             message: 'Wrong Credentials',
                             color: Colors.red
                         );
+                        print(e);
                       }
                     }
                 ),

@@ -115,12 +115,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     }
                 ),
               ),
+
               Container(
-                color: widget.selectedIndex == 7 ? Colors.deepPurple.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 7 ? const Color(0xFF007EE5).withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Music Club',
+                    title: 'Games',
                     selectedIndex: widget.selectedIndex == 7,
-                    svgSource: 'assets/icons/menu_music.svg',
+                    svgSource: 'assets/icons/menu_games.svg',
                     onPressed: (){
                       widget.onIndexChanged(7);
                       if(Responsive.isMobile(context)){
@@ -130,11 +131,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 8 ? const Color(0xFF007EE5).withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 8 ? Colors.red.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Games',
+                    title: 'Gyms',
                     selectedIndex: widget.selectedIndex == 8,
-                    svgSource: 'assets/icons/menu_games.svg',
+                    svgSource: 'assets/icons/menu_gyms.svg',
                     onPressed: (){
                       widget.onIndexChanged(8);
                       if(Responsive.isMobile(context)){
@@ -144,11 +145,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ),
               ),
               Container(
-                color: widget.selectedIndex == 9 ? Colors.red.withOpacity(0.1) : Colors.transparent,
+                color: widget.selectedIndex == 9 ? Colors.deepPurple.withOpacity(0.1) : Colors.transparent,
                 child: DrawerListTitle(
-                    title: 'Gyms',
+                    title: 'Cinemas',
                     selectedIndex: widget.selectedIndex == 9,
-                    svgSource: 'assets/icons/menu_gyms.svg',
+                    svgSource: 'assets/icons/menu_cinema.svg',
                     onPressed: (){
                       widget.onIndexChanged(9);
                       if(Responsive.isMobile(context)){
@@ -171,21 +172,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     }
                 ),
               ),
-              Container(
-                color: widget.selectedIndex == 11 ? Colors.green.withOpacity(0.1) : Colors.transparent,
-                child: DrawerListTitle(
-                    title: 'Book Clubs',
-                    selectedIndex: widget.selectedIndex == 11,
-                    svgSource: 'assets/icons/menu_libraries.svg',
-                    onPressed: (){
-                      widget.onIndexChanged(11);
-                      if(Responsive.isMobile(context)){
-                        Navigator.pop(context);
-                      }
-                    }
-                ),
-              ),
-
             ],
           ),
         ),

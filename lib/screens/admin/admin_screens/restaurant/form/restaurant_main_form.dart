@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:tembea/components/inputField/input_form_field.dart';
 import 'package:tembea/components/rounded_view_details_button.dart';
-import 'package:tembea/components/show_toast.dart';
 import 'package:tembea/screens/admin/admin_screens/restaurant/form/restaurant_secondary_form.dart';
 import '../../../../../constants.dart';
 
@@ -28,15 +26,6 @@ class _RestaurantMainFormState extends State<RestaurantMainForm> {
   String selectedType = 'Restaurant';
   String ? openingTime;
   String ? closingTime;
-
-  goToSecondaryForm() async{
-    List<String> secondaryData = await Navigator.push(context, MaterialPageRoute(builder:(context){
-      return const RestaurantSecondaryForm();
-    }));
-    setState(() {
-      data = secondaryData;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,47 +119,22 @@ class _RestaurantMainFormState extends State<RestaurantMainForm> {
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: kSecondaryColor,
                   ),
+
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: RoundedViewDetailsButton(
-                            title: 'Create',
-                            onPressed: () async{
-                              DateTime time = DateTime.now();
-                              data?.isNotEmpty == true ? await FirebaseFirestore.instance.collection('activities').doc().set({
-                                'Name' : name,
-                                'Location' : location,
-                                'Price' : price,
-                                'Description' : description,
-                                'OpeningTime' : openingTime,
-                                'ClosingTime' : closingTime,
-                                'Type' : selectedType,
-                                'PhotoUrl' : photoUrl,
-                                'PhotoUrl2' : photoUrl2,
-                                'PhotoUrl3' : photoUrl3,
-                                'ts' : time,
-                              }).then((value) {
-                                setState(() {
-                                  showSpinner = false;
-                                });
-                                Navigator.pop(context);
-                                showToast(
-                                  message: 'Restaurant Edited Successfully',
-                                  color: Colors.green,
-                                );
-                              }) : null;
-                            },
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: RoundedViewDetailsButton(
                             title: 'Next>',
                             onPressed: (){
-                              goToSecondaryForm();
+                               Navigator.push(context, MaterialPageRoute(builder:(context){
+                                return RestaurantSecondaryForm(
+                                  name: name,
+                                  location: location,
+                                  price: price,
+                                  description: description,
+                                );
+                              }));
                             },
                         ),
                       ),

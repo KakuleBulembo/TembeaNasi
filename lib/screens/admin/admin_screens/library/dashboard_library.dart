@@ -5,7 +5,7 @@ import 'package:tembea/components/add_button.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:tembea/components/show_dialog.dart';
 import 'package:tembea/components/show_toast.dart';
-import 'package:tembea/screens/admin/admin_screens/view_data.dart';
+import 'package:tembea/screens/admin/admin_screens/event/view_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -86,14 +86,14 @@ class _DashboardLibraryState extends State<DashboardLibrary> {
                                 color: Colors.green,
                                 onPressed: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return ViewData(item: data.docs[index],);
+                                    return ViewData(activity: data.docs[index],);
                                   }));
                                 },
                                 icon: const Icon(IconData(61161, fontFamily: 'MaterialIcons')),
                               ) : InkWell(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return ViewData(item: data.docs[index],);
+                                    return ViewData(activity: data.docs[index],);
                                   }));
                                 },
                                 child: const Icon(IconData(61161, fontFamily: 'MaterialIcons')),

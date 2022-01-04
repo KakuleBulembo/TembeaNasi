@@ -43,13 +43,16 @@ class _AddImagesState extends State<AddImages> {
                   setState(() {
                     showSpinner = true;
                   });
-                  uploadFile().whenComplete(() {
-                    Navigator.pop(context, imgRef);
+                  uploadFile().then((value) {
                     setState(() {
-                      showSpinner =false;
+                      showSpinner = false;
                     });
+                    showToast(
+                      message: "Images Updated Successfully",
+                      color: Colors.green,
+                    );
+                    Navigator.pop(context, imgRef);
                   });
-
                 },
                 child:const Text(
                     'Upload ',
@@ -110,7 +113,7 @@ class _AddImagesState extends State<AddImages> {
     for(var file in files){
       final dateTime = DateTime.now().millisecondsSinceEpoch;
       final fileName = basename(file.path);
-      final destination = 'restaurants/$dateTime$fileName';
+      final destination = 'activities/$dateTime$fileName';
         snap = await FirebaseApi.uploadFile(destination, file);
         if( snap!.state == TaskState.success){
           final String downloadUrl = await snap!.ref.getDownloadURL();
@@ -124,12 +127,5 @@ class _AddImagesState extends State<AddImages> {
           });
         }
     }
-    setState(() {
-      showSpinner = false;
-    });
-    return showToast(
-      message: "Images Updated Successfully",
-      color: Colors.green,
-    );
   }
 }

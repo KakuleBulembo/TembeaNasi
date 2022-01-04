@@ -9,7 +9,7 @@ import 'package:tembea/components/rounded_button.dart';
 import 'package:tembea/components/show_toast.dart';
 import 'package:tembea/components/square_button.dart';
 import 'package:tembea/components/time_pick.dart';
-import 'package:tembea/screens/admin/admin_screens/restaurant/form/add_images.dart';
+import 'package:tembea/components/add_images.dart';
 
 import '../../../../../constants.dart';
 
@@ -37,7 +37,6 @@ class _UpdateSecondaryFormState extends State<UpdateSecondaryForm> {
   String ? photoUrl;
   String ? photoUrl2;
   String ? photoUrl3;
-  String selectedType = 'Restaurant';
 
   @override
   Widget build(BuildContext context) {
@@ -182,34 +181,55 @@ class _UpdateSecondaryFormState extends State<UpdateSecondaryForm> {
                             setState(() {
                               showSpinner = true;
                               selectedOpeningTime ??= restaurant['OpeningTime'];
-                              selectedClosingTime ??= restaurant['ClosingTIme'];
+                              selectedClosingTime ??= restaurant['ClosingTime'];
                               photoUrl ??= restaurant['PhotoUrl'];
                               photoUrl2 ??= restaurant['PhotoUrl2'];
                               photoUrl3 ??= restaurant['PhotoUrl3'];
                             });
                             final time = DateTime.now();
-                            FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl']).delete().then((value) {
-                              FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl1']).delete();
-                            }).then((value) {
-                              FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl2']).delete();
-                            }).then((value) {
+                            if(imageList.isNotEmpty) {
+                              FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl']).delete().then((value) {
+                                FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl2']).delete();
+                              }).then((value) {
+                                FirebaseStorage.instance.refFromURL(restaurant['PhotoUrl3']).delete();
+                              }).then((value) {
+                                FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
+                                  'OpeningTime' : selectedOpeningTime,
+                                  'ClosingTime' : selectedClosingTime,
+                                  'PhotoUrl' : photoUrl,
+                                  'PhotoUrl2' : photoUrl2,
+                                  'PhotoUrl3' : photoUrl3,
+                                  'ts' : time,
+                                }).then((value) {
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                  showToast(message: 'Restaurant Updated',
+                                    color: Colors.green,
+                                  );
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                });
+                              });
+
+                            }
+                            else {
                               FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
                                 'OpeningTime' : selectedOpeningTime,
                                 'ClosingTime' : selectedClosingTime,
-                                'PhotoUrl' : photoUrl,
-                                'PhotoUrl2' : photoUrl2,
-                                'PhotoUrl3' : photoUrl3,
                                 'ts' : time,
-                              });
-                            }).then((value) {
-                              setState(() {
-                                showSpinner = false;
-                              });
-                              showToast(message: 'Restaurant Added',
+                              }).then((value) {
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                showToast(message: 'Restaurant Updated',
                                   color: Colors.green,
-                              );
-                              Navigator.pop(context);
-                            });
+                                );
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              });
+                            }
                           }
                       ),
                     ],

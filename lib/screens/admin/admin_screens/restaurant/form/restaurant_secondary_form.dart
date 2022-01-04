@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:tembea/components/rounded_button.dart';
@@ -7,12 +8,20 @@ import '../../../../../constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tembea/components/square_button.dart';
 import 'dart:io';
-import 'add_images.dart';
+import '../../../../../components/add_images.dart';
 
 class RestaurantSecondaryForm extends StatefulWidget {
   const RestaurantSecondaryForm({
     Key? key,
+    required this.name,
+    required this.location,
+    required this.price,
+    required this.description,
   }) : super(key: key);
+  final String name;
+  final String location;
+  final String price;
+  final String description;
 
   @override
   _RestaurantSecondaryFormState createState() => _RestaurantSecondaryFormState();
@@ -35,6 +44,8 @@ class _RestaurantSecondaryFormState extends State<RestaurantSecondaryForm> {
   String ? photoUrl;
   String ? photoUrl2;
   String ? photoUrl3;
+  int numberOfRatings = 0;
+  int avgRating = 0;
 
   Future<void> openTimePicker(context) async {
     final TimeOfDay? t =
@@ -54,6 +65,7 @@ class _RestaurantSecondaryFormState extends State<RestaurantSecondaryForm> {
       imageUrl = imgUrl;
     });
   }
+  String selectedType = 'Restaurant';
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +81,9 @@ class _RestaurantSecondaryFormState extends State<RestaurantSecondaryForm> {
     }
     else{
       setState(() {
-        photoUrl = '';
-        photoUrl2 = '';
-        photoUrl3 = '';
+        photoUrl = null;
+        photoUrl2 = null;
+        photoUrl3 = null;
       });
     }
     return LoadingOverlay(
@@ -183,8 +195,26 @@ class _RestaurantSecondaryFormState extends State<RestaurantSecondaryForm> {
                         secondaryData.add(photoUrl2!);
                         secondaryData.add(photoUrl3!);
                       });
-                      Navigator.pop(context, secondaryData);
-                      showToast(message: 'Added Successfully', color: Colors.green);
+                      imageList.isNotEmpty ? await FirebaseFirestore.instance.collection('activities').doc().set({
+                        'Name' : widget.name,
+                        'Location' : widget.location,
+                        'Price' : widget.price,
+                        'Description' : widget.description,
+                        'OpeningTime' : selectedOpeningTime,
+                        'ClosingTime' : selectedClosingTime,
+                        'Type' : selectedType,
+                        'PhotoUrl' : photoUrl,
+                        'PhotoUrl2' : photoUrl2,
+                        'PhotoUrl3' : photoUrl3,
+                        'numberOfRatings' : numberOfRatings,
+                        'avgRating' : avgRating,
+                        'ts' : DateTime.now(),
+                      }).then((value) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        showToast(message: 'Added Successfully', color: Colors.green);
+                      }) : null;
+
                     }
                 ),
               ],

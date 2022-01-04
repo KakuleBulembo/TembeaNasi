@@ -17,7 +17,6 @@ class ProfileCard extends StatefulWidget {
 class _ProfileCardState extends State<ProfileCard> {
   final _auth = FirebaseAuth.instance;
   String? email = FirebaseAuth.instance.currentUser!.email;
-
   @override
   Widget build(BuildContext context) {
     return Container(

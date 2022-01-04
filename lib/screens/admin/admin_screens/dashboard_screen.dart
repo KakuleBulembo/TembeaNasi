@@ -3,17 +3,25 @@ import 'package:tembea/components/menu_controller.dart';
 import 'package:tembea/constants.dart';
 import 'package:tembea/screens/admin/admin_components/drawer_menu.dart';
 import 'package:tembea/screens/admin/admin_components/header_dashboard.dart';
+import 'package:tembea/screens/admin/admin_screens/cinema/dashboard_cinema.dart';
 import 'package:tembea/screens/admin/admin_screens/dashboard_body.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:tembea/screens/admin/admin_screens/dashboard_users.dart';
+import 'package:tembea/screens/admin/admin_screens/games/dashboard_game.dart';
+import 'package:tembea/screens/admin/admin_screens/gyms/dashboard_gyms.dart';
+import 'package:tembea/screens/admin/admin_screens/hotels/dashboard_hotel.dart';
+import 'package:tembea/screens/admin/admin_screens/pools/dashboard_pool.dart';
 import 'package:tembea/screens/admin/admin_screens/restaurant/dashboard_restaurant.dart';
+import 'package:tembea/screens/user/profile.dart';
 import 'event/dashboard_event.dart';
 
 
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({
+    Key? key
+  }) : super(key: key);
   static String id = 'dashboard_screen';
 
   @override
@@ -74,13 +82,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                       ),
                       if(selectedIndex == 2)
-                        const Text('Profile'),
+                        const Profile(),
                       if(selectedIndex == 3)
                         const DashboardUsers(),
                       if(selectedIndex == 4)
                         const DashboardEvent(),
                       if(selectedIndex == 5)
                         const DashboardRestaurant(),
+                      if(selectedIndex == 6)
+                        const DashboardHotel(),
+                      if(selectedIndex == 7)
+                        const DashboardGame(),
+                      if(selectedIndex == 8)
+                        const DashboardGyms(),
+                      if(selectedIndex == 9)
+                        const DashboardCinema(),
+                      if(selectedIndex == 10)
+                        const DashboardPool(),
                     ],
                   ),
                 ),

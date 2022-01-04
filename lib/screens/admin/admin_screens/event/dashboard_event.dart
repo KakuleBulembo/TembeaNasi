@@ -5,8 +5,8 @@ import 'package:tembea/components/add_button.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:tembea/components/show_dialog.dart';
 import 'package:tembea/components/show_toast.dart';
-import 'package:tembea/screens/admin/admin_screens/view_data.dart';
-import 'event_form.dart';
+import 'package:tembea/screens/admin/admin_screens/event/form/event_main_form.dart';
+import 'package:tembea/screens/admin/admin_screens/event/view_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -35,7 +35,7 @@ class _DashboardEventState extends State<DashboardEvent> {
            title: 'Events',
            addLabel: 'Add Events',
            onPressed: (){
-             Navigator.pushNamed(context, EventForm.id);
+             Navigator.pushNamed(context, EventMainForm.id);
            },),
         const SizedBox(
           height: 16.0,
@@ -88,14 +88,14 @@ class _DashboardEventState extends State<DashboardEvent> {
                                   color: Colors.green,
                                   onPressed: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                                      return ViewData(item: data.docs[index],);
+                                      return ViewData(activity: data.docs[index],);
                                     }));
                                   },
                                   icon: const Icon(IconData(61161, fontFamily: 'MaterialIcons')),
                                 ) : InkWell(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                                      return ViewData(item: data.docs[index],);
+                                      return ViewData(activity: data.docs[index],);
                                     }));
                                   },
                                   child: const Icon(IconData(61161, fontFamily: 'MaterialIcons')),
@@ -110,7 +110,11 @@ class _DashboardEventState extends State<DashboardEvent> {
                                           return ShowDialog(
                                             deleteFunction: () async{
                                               await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
-                                                FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
+                                                FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl3']).delete().then((value) {
+                                                  FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl2']).delete().then((value){
+                                                    FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
+                                                  });
+                                                });
                                                 myTransaction.delete(snapshot.data!.docs[index].reference);
                                               }).then((value) => Navigator.pop(context));
                                             },
@@ -132,13 +136,14 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                   FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
                                                 }).then((value) => Navigator.pop(context));
+                                                showToast(message: 'Deleted Successfully', color: Colors.green);
                                               },
                                               dialogTitle: "Delete",
                                               dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
                                             );
                                           });
                                     }
-                                      else if((defaultTargetPlatform == TargetPlatform.android)){
+                                      else {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context){
@@ -148,24 +153,7 @@ class _DashboardEventState extends State<DashboardEvent> {
                                                   FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
                                                   myTransaction.delete(snapshot.data!.docs[index].reference);
                                                 }).then((value) => Navigator.pop(context));
-                                              },
-                                              dialogTitle: "Delete",
-                                              dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",
-                                            );
-                                          });
-                                    }
-                                      else{
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context){
-                                            return ShowDialog(
-                                              deleteFunction: () async{
-                                                await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
-                                                  FirebaseStorage.instance.refFromURL(data.docs[index]['PhotoUrl']).delete();
-                                                  myTransaction.delete(snapshot.data!.docs[index].reference);
-                                                  Navigator.pop(context);
-                                                  showToast(message: 'Deleted Successfully', color: Colors.green);
-                                                }).then((value) => Navigator.pop(context));
+                                                showToast(message: 'Deleted Successfully', color: Colors.green);
                                               },
                                               dialogTitle: "Delete",
                                               dialogContent: "Do you really want to delete ${data.docs[index]['Name']} event?",

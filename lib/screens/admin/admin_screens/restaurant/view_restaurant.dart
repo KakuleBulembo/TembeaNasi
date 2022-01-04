@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tembea/components/viewData/bottom_place_view.dart';
 import 'package:tembea/screens/admin/admin_screens/restaurant/form/update_main_form.dart';
-import 'package:tembea/screens/admin/admin_screens/restaurant/form/update_secondary_form.dart';
-
 import '../../../../constants.dart';
 
 class ViewRestaurant extends StatefulWidget {
@@ -66,8 +64,12 @@ class _ViewRestaurantState extends State<ViewRestaurant> {
                               ),
                               child: BottomPlaceView(
                                 activityName: restaurant['Name'],
+                                priceLabel: 'From',
+                                price: restaurant['Price'],
                                 activityDescription: restaurant['Description'],
+                                openingTimeLabel: 'Opens',
                                 openingTime: restaurant['OpeningTime'],
+                                closingTimeLabel: 'Closes',
                                 closingTime: restaurant['ClosingTime'],
                                 location: restaurant['Location'],
                                 labelButton: 'Edit Restaurant',
@@ -75,12 +77,6 @@ class _ViewRestaurantState extends State<ViewRestaurant> {
                                   Navigator
                                       .push(context, MaterialPageRoute(builder: (context){
                                     return UpdateMainForm(restaurant: widget.restaurant);
-                                  }));
-                                },
-                                onPressedImageButton: (){
-                                  Navigator
-                                  .push(context, MaterialPageRoute(builder: (context){
-                                    return UpdateSecondaryForm(restaurant: widget.restaurant);
                                   }));
                                 },
                               ),
@@ -127,7 +123,6 @@ class _ViewRestaurantState extends State<ViewRestaurant> {
                                 )).toList(),
                               ),
                             ),
-
                           ],
                         ),
                      ),
@@ -145,4 +140,3 @@ class _ViewRestaurantState extends State<ViewRestaurant> {
     );
   }
 }
-

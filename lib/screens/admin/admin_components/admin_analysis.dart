@@ -47,15 +47,6 @@ List adminAnalysis = [
   ),
 
   AdminAnalysis(
-    title: "Music Clubs",
-    total: "30 Music Clubs",
-    svgSrc: "assets/icons/menu_music.svg",
-    highRated: "High Rated: Imba Nasi",
-    color: Colors.deepPurple,
-    percentage: 15,
-    onPressed: (){},
-  ),
-  AdminAnalysis(
     title: "Games",
     total: "30 Games",
     svgSrc: "assets/icons/menu_games.svg",
@@ -83,11 +74,11 @@ List adminAnalysis = [
     onPressed: (){},
   ),
   AdminAnalysis(
-    title: "Book Clubs",
-    total: "10 Libraries",
-    svgSrc: "assets/icons/menu_libraries.svg",
-    highRated: "High Rated: Nairobi Library",
-    color: const Color(0xFFA4CDFF),
+    title: "Cinema",
+    total: "5 cinema",
+    svgSrc: "assets/icons/menu_cinema.svg",
+    highRated: "High Rated: Imax",
+    color: Colors.deepPurple,
     percentage: 5,
     onPressed: (){},
   ),

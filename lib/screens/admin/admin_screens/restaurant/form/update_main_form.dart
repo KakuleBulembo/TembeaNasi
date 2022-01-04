@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:tembea/components/inputField/input_form_field.dart';
-import 'package:tembea/components/rounded_button.dart';
+import 'package:tembea/components/rounded_view_details_button.dart';
 import 'package:tembea/components/show_toast.dart';
+import 'package:tembea/screens/admin/admin_screens/restaurant/form/update_secondary_form.dart';
 import '../../../../../constants.dart';
 
 class UpdateMainForm extends StatefulWidget {
@@ -46,7 +47,7 @@ class _UpdateMainFormState extends State<UpdateMainForm> {
           ),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).snapshots(),
-            builder: (context,AsyncSnapshot snapshot){
+            builder: (context, AsyncSnapshot snapshot){
               if(snapshot.hasData){
                 final restaurant = snapshot.data!.data();
                 return Column(
@@ -106,35 +107,63 @@ class _UpdateMainFormState extends State<UpdateMainForm> {
                         },
                       ),
                     ),
-                    RoundedButton(
-                      buttonName: 'Update Restaurant',
-                      color: Colors.green,
-                      onPressed: () async{
-                        setState(() {
-                          showSpinner = true;
-                          name ??= restaurant['Name'];
-                          location ??= restaurant['Location'];
-                          price ??= restaurant['Price'];
-                          description ??= restaurant['Description'];
-                        });
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        padding:const EdgeInsets.all(20),
+                        decoration:const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: kSecondaryColor,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: RoundedViewDetailsButton(
+                                title: 'Update',
+                                onPressed: () async{
+                                  setState(() {
+                                    showSpinner = true;
+                                    name ??= restaurant['Name'];
+                                    location ??= restaurant['Location'];
+                                    price ??= restaurant['Price'];
+                                    description ??= restaurant['Description'];
+                                  });
 
-                       await FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
-                         'Name' : name,
-                         'Location' : location,
-                         'Price' : price,
-                         'Description' : description,
-                       }).then((value) {
-                         setState(() {
-                           showSpinner = false;
-                         });
-                         Navigator.pop(context);
-                         showToast(
-                             message: 'Restaurant Edited Successfully',
-                             color: Colors.green,
-                         );
-
-                       });
-                      },
+                                 await FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
+                                   'Name' : name,
+                                   'Location' : location,
+                                   'Price' : price,
+                                   'Description' : description,
+                                 }).then((value) {
+                                   setState(() {
+                                     showSpinner = false;
+                                   });
+                                   Navigator.pop(context);
+                                   showToast(
+                                       message: 'Restaurant Edited Successfully',
+                                       color: Colors.green,
+                                   );
+                                 });
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: RoundedViewDetailsButton(
+                                  title: 'Next>',
+                                  onPressed: () {
+                                    Navigator
+                                        .push(context, MaterialPageRoute(builder: (context){
+                                      return UpdateSecondaryForm(restaurant: widget.restaurant);
+                                    }));
+                                  },
+                                ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 );
