@@ -27,6 +27,7 @@ class _DashboardHotelState extends State<DashboardHotel> {
       .where('Type', isEqualTo: 'Hotel')
       .orderBy('ts', descending: true)
       .snapshots();
+  final _formKey = GlobalKey<FormState>();
 
 
   @override

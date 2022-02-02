@@ -8,11 +8,13 @@ class InputPasswordField extends StatefulWidget {
     required this.onTap,
     this.obscureText = true,
     required this.onChanged,
+    required this.validator
   }) : super(key: key);
   final String hintText;
   final VoidCallback onTap;
   final bool obscureText;
   final ValueChanged<String> onChanged;
+  final dynamic validator;
 
   @override
   State<InputPasswordField> createState() => _InputPasswordFieldState();
@@ -23,6 +25,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
   Widget build(BuildContext context) {
     return TextFormFieldContainer(
       child: TextFormField(
+        validator: widget.validator,
         obscureText: widget.obscureText,
         decoration: InputDecoration(
           hintText: widget.hintText,

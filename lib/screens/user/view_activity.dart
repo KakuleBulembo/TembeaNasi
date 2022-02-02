@@ -10,6 +10,7 @@ import 'package:tembea/components/custom_text_button.dart';
 import 'package:tembea/components/inputField/square_input_text_field.dart';
 import 'package:tembea/components/rounded_view_details_button.dart';
 import 'package:tembea/components/show_toast.dart';
+import 'package:tembea/screens/user/cinema_schedule.dart';
 import '../../constants.dart';
 
 class ViewActivity extends StatefulWidget {
@@ -278,11 +279,18 @@ class _ViewActivityState extends State<ViewActivity> {
                       ),
                       child: Row(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: RoundedViewDetailsButton(
-                              title: 'More',
-                              onPressed: (){},
+                          Visibility(
+                            visible: (activity['Type'] == 'Cinema'),
+                            child: Expanded(
+                              flex: 2,
+                              child: RoundedViewDetailsButton(
+                                title: 'More',
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return CinemaSchedule(cinema: widget.activity);
+                                  }));
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(

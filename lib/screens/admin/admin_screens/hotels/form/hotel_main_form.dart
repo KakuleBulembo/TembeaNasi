@@ -28,6 +28,7 @@ class _HotelMainFormState extends State<HotelMainForm> {
   String ? photoUrl3;
   String ? openingTime;
   String ? closingTime;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,91 +61,120 @@ class _HotelMainFormState extends State<HotelMainForm> {
             top: 40,
             bottom: 40,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InputFormField(
-                shape: kTopRounded,
-                label: 'Hotel Name*',
-                hintText: 'Enter Hotel Name',
-                maxLines: 1,
-                minLines: 1,
-                onChanged: (value){
-                  name = value;
-                },
-              ),
-              InputFormField(
-                shape: kRoundedBorder,
-                label: 'Hotel Location*',
-                hintText: 'Enter Hotel Location',
-                maxLines: 1,
-                minLines: 1,
-                onChanged: (value){
-                  location = value;
-                },
-              ),
-              InputFormField(
-                shape: kRoundedBorder,
-                label: 'Minimum Price*',
-                hintText: 'Enter Minimum Price',
-                maxLines: 1,
-                minLines: 1,
-                onChanged: (value){
-                  price = value;
-                },
-              ),
-              GestureDetector(
-                onTap:  () {
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-
-                  if (!currentFocus.hasPrimaryFocus &&
-                      currentFocus.focusedChild != null) {
-                    FocusManager.instance.primaryFocus!.unfocus();
-                  }
-                },
-                child: InputFormField(
-                  shape: kBottomRounded,
-                  label: 'Hotel Description*',
-                  hintText: 'Enter Hotel Description',
-                  maxLines: 7,
-                  minLines: 4,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InputFormField(
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter the value';
+                    }
+                    return null;
+                  },
+                  shape: kTopRounded,
+                  label: 'Hotel Name*',
+                  hintText: 'Enter Hotel Name',
+                  maxLines: 1,
+                  minLines: 1,
                   onChanged: (value){
-                    description = value;
+                    name = value;
                   },
                 ),
-              ),
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  padding:const EdgeInsets.all(20),
-                  decoration:const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: kSecondaryColor,
-                  ),
+                InputFormField(
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter the value';
+                    }
+                    return null;
+                  },
+                  shape: kRoundedBorder,
+                  label: 'Hotel Location*',
+                  hintText: 'Enter Hotel Location',
+                  maxLines: 1,
+                  minLines: 1,
+                  onChanged: (value){
+                    location = value;
+                  },
+                ),
+                InputFormField(
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return 'Please enter the value';
+                    }
+                    return null;
+                  },
+                  shape: kRoundedBorder,
+                  label: 'Minimum Price*',
+                  hintText: 'Enter Minimum Price',
+                  maxLines: 1,
+                  minLines: 1,
+                  onChanged: (value){
+                    price = value;
+                  },
+                ),
+                GestureDetector(
+                  onTap:  () {
+                    FocusScopeNode currentFocus = FocusScope.of(context);
 
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: RoundedViewDetailsButton(
-                          title: 'Next>',
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder:(context){
-                              return HotelSecondaryForm(
-                                name: name,
-                                location: location,
-                                price: price,
-                                description: description,
-                              );
-                            }));
-                          },
-                        ),
-                      ),
-                    ],
+                    if (!currentFocus.hasPrimaryFocus &&
+                        currentFocus.focusedChild != null) {
+                      FocusManager.instance.primaryFocus!.unfocus();
+                    }
+                  },
+                  child: InputFormField(
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return 'Please enter the value';
+                      }
+                      return null;
+                    },
+                    shape: kBottomRounded,
+                    label: 'Hotel Description*',
+                    hintText: 'Enter Hotel Description',
+                    maxLines: 7,
+                    minLines: 4,
+                    onChanged: (value){
+                      description = value;
+                    },
                   ),
                 ),
-              ),
-            ],
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    padding:const EdgeInsets.all(20),
+                    decoration:const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: kSecondaryColor,
+                    ),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: RoundedViewDetailsButton(
+                            title: 'Next>',
+                            onPressed: (){
+                              if(_formKey.currentState!.validate()){
+                                Navigator.push(context, MaterialPageRoute(builder:(context){
+                                  return HotelSecondaryForm(
+                                    name: name,
+                                    location: location,
+                                    price: price,
+                                    description: description,
+                                  );
+                                }));
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

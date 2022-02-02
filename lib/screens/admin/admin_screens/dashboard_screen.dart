@@ -3,6 +3,7 @@ import 'package:tembea/components/menu_controller.dart';
 import 'package:tembea/constants.dart';
 import 'package:tembea/screens/admin/admin_components/drawer_menu.dart';
 import 'package:tembea/screens/admin/admin_components/header_dashboard.dart';
+import 'package:tembea/screens/admin/admin_screens/admin_home.dart';
 import 'package:tembea/screens/admin/admin_screens/cinema/dashboard_cinema.dart';
 import 'package:tembea/screens/admin/admin_screens/dashboard_body.dart';
 import 'package:tembea/components/responsive.dart';
@@ -71,16 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                          height: 16.0,
                        ),
                       if(selectedIndex == 1 || selectedIndex == 0)
-                      Responsive(
-                          mobile:  AdminInfoGrid(
-                            childAspectRatio: _size.width < 700 ? 1.1 : 1,
-                            crossAxisCount: _size.width < 700 ? 2 : 4,
-                          ),
-                          tablet: const AdminInfoGrid(),
-                          web: AdminInfoGrid(
-                            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
-                          ),
-                      ),
+                        const AdminHome(),
                       if(selectedIndex == 2)
                         const Profile(),
                       if(selectedIndex == 3)

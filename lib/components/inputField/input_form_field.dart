@@ -12,6 +12,7 @@ class InputFormField extends StatelessWidget {
     required this.minLines,
     required this.onChanged,
     required this.shape,
+     required this.validator
   }) : super(key: key);
 
   final String initialValue;
@@ -21,6 +22,7 @@ class InputFormField extends StatelessWidget {
   final int minLines;
   final ValueChanged<String> onChanged;
   final ShapeBorder shape;
+  final dynamic validator;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class InputFormField extends StatelessWidget {
                 height: 2,
               ),
               TextFormField(
+                validator: validator,
                 initialValue: initialValue,
                 textAlign: TextAlign.center,
                 cursorColor: Colors.green,

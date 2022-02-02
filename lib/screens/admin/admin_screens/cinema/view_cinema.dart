@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tembea/components/viewData/bottom_place_view.dart';
-
 import '../../../../constants.dart';
 import 'form/update_cinema_main.dart';
 
@@ -30,7 +29,9 @@ class _ViewCinemaState extends State<ViewCinema> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title:const Text('Tembea Nasi'),
+          title:const Text(
+              'Tembea Nasi',
+          ),
           backgroundColor: kBackgroundColor,
         ),
         body: SingleChildScrollView(

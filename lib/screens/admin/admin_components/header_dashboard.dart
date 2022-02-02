@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../components/search_engine.dart';
 import '../../../components/profile_card.dart';
 import 'package:tembea/components/responsive.dart';
 import 'package:tembea/components/menu_controller.dart';
@@ -34,12 +33,6 @@ class HeaderDashboard extends StatelessWidget {
                if(!Responsive.isMobile(context))
                Spacer(
                  flex: Responsive.isWeb(context) ? 2 : 1,
-               ),
-                Expanded(
-                   child: SearchEngine(
-                     onChanged: (value){},
-                     text: '',
-                   ),
                ),
                const ProfileCard(),
              ],

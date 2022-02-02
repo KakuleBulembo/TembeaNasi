@@ -52,6 +52,7 @@ class BottomPlaceView extends StatelessWidget {
          ),
           Center(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: Text(

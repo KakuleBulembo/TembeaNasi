@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tembea/constants.dart';
 import 'package:tembea/screens/user/profile.dart';
+import 'package:tembea/screens/user/recommendation.dart';
 import 'package:tembea/screens/user/search_dashboard.dart';
 import 'package:tembea/screens/user/user_dashboard.dart';
 
@@ -67,6 +68,8 @@ class _UserHomeState extends State<UserHome> {
                   const UserDashboard(),
                 if(index == 1)
                   const SearchDashboard(),
+                if(index == 2)
+                  const Recommendation(),
                 if(index == 4)
                   const Profile(),
               ],

@@ -24,6 +24,8 @@ class _UpdateMainFormState extends State<UpdateMainForm> {
   String ? description;
   String ? price;
   bool showSpinner = false;
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,122 +52,155 @@ class _UpdateMainFormState extends State<UpdateMainForm> {
             builder: (context, AsyncSnapshot snapshot){
               if(snapshot.hasData){
                 final restaurant = snapshot.data!.data();
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InputFormField(
-                      initialValue: restaurant['Name'],
-                      shape: kTopRounded,
-                      label: 'Restaurant Name*',
-                      hintText: 'Enter Restaurant Name',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        name = value;
-                      },
-                    ),
-                    InputFormField(
-                      initialValue: restaurant['Location'],
-                      shape: kRoundedBorder,
-                      label: 'Restaurant Location*',
-                      hintText: 'Enter Restaurant Location',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        location = value;
-                      },
-                    ),
-                    InputFormField(
-                      initialValue: restaurant['Price'],
-                      shape: kRoundedBorder,
-                      label: 'Minimum Price*',
-                      hintText: 'Enter Minimum Price',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        price = value;
-                      },
-                    ),
-                    GestureDetector(
-                      onTap:  () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
 
-                        if (!currentFocus.hasPrimaryFocus &&
-                            currentFocus.focusedChild != null) {
-                          FocusManager.instance.primaryFocus!.unfocus();
-                        }
-                      },
-                      child: InputFormField(
-                        initialValue: restaurant['Description'],
-                        shape: kBottomRounded,
-                        label: 'Restaurant Description*',
-                        hintText: 'Enter Restaurant Description',
-                        maxLines: 7,
-                        minLines: 4,
+                        initialValue: restaurant['Name'],
+                        shape: kTopRounded,
+                        label: 'Restaurant Name*',
+                        hintText: 'Enter Restaurant Name',
+                        maxLines: 1,
+                        minLines: 1,
                         onChanged: (value){
-                          description = value;
+                          name = value;
                         },
                       ),
-                    ),
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        padding:const EdgeInsets.all(20),
-                        decoration:const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: kSecondaryColor,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: RoundedViewDetailsButton(
-                                title: 'Update',
-                                onPressed: () async{
-                                  setState(() {
-                                    showSpinner = true;
-                                    name ??= restaurant['Name'];
-                                    location ??= restaurant['Location'];
-                                    price ??= restaurant['Price'];
-                                    description ??= restaurant['Description'];
-                                  });
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
 
-                                 await FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
-                                   'Name' : name,
-                                   'Location' : location,
-                                   'Price' : price,
-                                   'Description' : description,
-                                 }).then((value) {
-                                   setState(() {
-                                     showSpinner = false;
-                                   });
-                                   Navigator.pop(context);
-                                   showToast(
-                                       message: 'Restaurant Edited Successfully',
-                                       color: Colors.green,
-                                   );
-                                 });
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: RoundedViewDetailsButton(
-                                  title: 'Next>',
-                                  onPressed: () {
-                                    Navigator
-                                        .push(context, MaterialPageRoute(builder: (context){
-                                      return UpdateSecondaryForm(restaurant: widget.restaurant);
-                                    }));
-                                  },
-                                ),
-                            ),
-                          ],
+                        initialValue: restaurant['Location'],
+                        shape: kRoundedBorder,
+                        label: 'Restaurant Location*',
+                        hintText: 'Enter Restaurant Location',
+                        maxLines: 1,
+                        minLines: 1,
+                        onChanged: (value){
+                          location = value;
+                        },
+                      ),
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
+
+                        initialValue: restaurant['Price'],
+                        shape: kRoundedBorder,
+                        label: 'Minimum Price*',
+                        hintText: 'Enter Minimum Price',
+                        maxLines: 1,
+                        minLines: 1,
+                        onChanged: (value){
+                          price = value;
+                        },
+                      ),
+                      GestureDetector(
+                        onTap:  () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
+                          if (!currentFocus.hasPrimaryFocus &&
+                              currentFocus.focusedChild != null) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          }
+                        },
+                        child: InputFormField(
+                          validator: (value){
+                            if(value == null || value.isEmpty){
+                              return 'Please enter the value';
+                            }
+                            return null;
+                          },
+
+                          initialValue: restaurant['Description'],
+                          shape: kBottomRounded,
+                          label: 'Restaurant Description*',
+                          hintText: 'Enter Restaurant Description',
+                          maxLines: 7,
+                          minLines: 4,
+                          onChanged: (value){
+                            description = value;
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding:const EdgeInsets.all(20),
+                          decoration:const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: kSecondaryColor,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: RoundedViewDetailsButton(
+                                  title: 'Update',
+                                  onPressed: () async{
+                                    setState(() {
+                                      showSpinner = true;
+                                      name ??= restaurant['Name'];
+                                      location ??= restaurant['Location'];
+                                      price ??= restaurant['Price'];
+                                      description ??= restaurant['Description'];
+                                    });
+
+                                   await FirebaseFirestore.instance.collection('activities').doc(widget.restaurant.reference.id).update({
+                                     'Name' : name,
+                                     'Location' : location,
+                                     'Price' : price,
+                                     'Description' : description,
+                                   }).then((value) {
+                                     setState(() {
+                                       showSpinner = false;
+                                     });
+                                     Navigator.pop(context);
+                                     showToast(
+                                         message: 'Restaurant Edited Successfully',
+                                         color: Colors.green,
+                                     );
+                                   });
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                  child: RoundedViewDetailsButton(
+                                    title: 'Next>',
+                                    onPressed: () {
+                                     if(_formKey.currentState!.validate()){
+                                       Navigator
+                                           .push(context, MaterialPageRoute(builder: (context){
+                                         return UpdateSecondaryForm(restaurant: widget.restaurant);
+                                       }));
+                                     }
+                                    },
+                                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
               else{

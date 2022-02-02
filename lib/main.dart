@@ -16,6 +16,7 @@ import 'package:tembea/screens/admin/admin_screens/pools/form/pool_main_form.dar
 import 'package:tembea/screens/admin/admin_screens/restaurant/dashboard_restaurant.dart';
 import 'package:tembea/screens/admin/admin_screens/restaurant/form/restaurant_main_form.dart';
 import 'package:tembea/screens/auth/login_screen.dart';
+import 'package:tembea/screens/user/interest.dart';
 import 'package:tembea/screens/user/user_dashboard.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/auth/registration_screen.dart';
@@ -25,7 +26,20 @@ import 'constants.dart';
 import 'components/menu_controller.dart';
 import 'screens/user/user_home.dart';
 
-
+// Future<void> firebaseBackgroundMessage(RemoteMessage message) async {
+//   print(message.data);
+//   AwesomeNotifications().createNotification(
+//       content: NotificationContent( //with image from URL
+//           id: 1,
+//           channelKey: 'basic', //channel configuration key
+//           title: message.data["title"],
+//           body: message.data["body"],
+//           bigPicture: message.data["image"],
+//           notificationLayout: NotificationLayout.BigPicture,
+//           payload: {"name":"flutter"}
+//       )
+//   );
+// }
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -78,6 +92,7 @@ class MyApp extends StatelessWidget {
         DashboardPool.id :(context) =>const DashboardPool(),
         PoolMainForm.id :(context) =>const PoolMainForm(),
         UserDashboard.id : (context) => const UserDashboard(),
+        Interest.id : (context) => const Interest(),
       },
     );
 

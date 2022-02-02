@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
       stream: user,
         builder: (context, AsyncSnapshot snapshot){
            if(snapshot.hasData){
-             final currentUser = snapshot.data.data();
+             var currentUser = snapshot.data.data();
              return Column(
                children: [
                  Row(

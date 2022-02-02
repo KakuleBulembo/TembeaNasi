@@ -25,6 +25,7 @@ class _UpdateGameMainState extends State<UpdateGameMain> {
   String ? description;
   String ? price;
   bool showSpinner = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,121 +52,154 @@ class _UpdateGameMainState extends State<UpdateGameMain> {
             builder: (context, AsyncSnapshot snapshot){
               if(snapshot.hasData){
                 final activity = snapshot.data!.data();
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InputFormField(
-                      initialValue: activity['Name'],
-                      shape: kTopRounded,
-                      label: 'Game Name*',
-                      hintText: 'Enter Game Name',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        name = value;
-                      },
-                    ),
-                    InputFormField(
-                      initialValue: activity['Location'],
-                      shape: kRoundedBorder,
-                      label: 'Game Location*',
-                      hintText: 'Enter Game Location',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        location = value;
-                      },
-                    ),
-                    InputFormField(
-                      initialValue: activity['Price'],
-                      shape: kRoundedBorder,
-                      label: 'Minimum Price*',
-                      hintText: 'Enter Minimum Price',
-                      maxLines: 1,
-                      minLines: 1,
-                      onChanged: (value){
-                        price = value;
-                      },
-                    ),
-                    GestureDetector(
-                      onTap:  () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
 
-                        if (!currentFocus.hasPrimaryFocus &&
-                            currentFocus.focusedChild != null) {
-                          FocusManager.instance.primaryFocus!.unfocus();
-                        }
-                      },
-                      child: InputFormField(
-                        initialValue: activity['Description'],
-                        shape: kBottomRounded,
-                        label: 'Game Description*',
-                        hintText: 'Enter Game Description',
-                        maxLines: 7,
-                        minLines: 4,
+                        initialValue: activity['Name'],
+                        shape: kTopRounded,
+                        label: 'Game Name*',
+                        hintText: 'Enter Game Name',
+                        maxLines: 1,
+                        minLines: 1,
                         onChanged: (value){
-                          description = value;
+                          name = value;
                         },
                       ),
-                    ),
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        padding:const EdgeInsets.all(20),
-                        decoration:const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: kSecondaryColor,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: RoundedViewDetailsButton(
-                                title: 'Update',
-                                onPressed: () async{
-                                  setState(() {
-                                    showSpinner = true;
-                                    name ??= activity['Name'];
-                                    location ??= activity['Location'];
-                                    price ??= activity['Price'];
-                                    description ??= activity['Description'];
-                                  });
-                                  await FirebaseFirestore.instance.collection('activities').doc(widget.activity.reference.id).update({
-                                    'Name' : name,
-                                    'Location' : location,
-                                    'Price' : price,
-                                    'Description' : description,
-                                  }).then((value) {
-                                    setState(() {
-                                      showSpinner = false;
-                                    });
-                                    Navigator.pop(context);
-                                    showToast(
-                                      message: 'Edited Successfully',
-                                      color: Colors.green,
-                                    );
-                                  });
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: RoundedViewDetailsButton(
-                                title: 'Next>',
-                                onPressed: () {
-                                  Navigator
-                                      .push(context, MaterialPageRoute(builder: (context){
-                                    return UpdateGameSecondary(activity: widget.activity);
-                                  }));
-                                },
-                              ),
-                            ),
-                          ],
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
+
+                        initialValue: activity['Location'],
+                        shape: kRoundedBorder,
+                        label: 'Game Location*',
+                        hintText: 'Enter Game Location',
+                        maxLines: 1,
+                        minLines: 1,
+                        onChanged: (value){
+                          location = value;
+                        },
+                      ),
+                      InputFormField(
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return 'Please enter the value';
+                          }
+                          return null;
+                        },
+
+                        initialValue: activity['Price'],
+                        shape: kRoundedBorder,
+                        label: 'Minimum Price*',
+                        hintText: 'Enter Minimum Price',
+                        maxLines: 1,
+                        minLines: 1,
+                        onChanged: (value){
+                          price = value;
+                        },
+                      ),
+                      GestureDetector(
+                        onTap:  () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
+                          if (!currentFocus.hasPrimaryFocus &&
+                              currentFocus.focusedChild != null) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          }
+                        },
+                        child: InputFormField(
+                          validator: (value){
+                            if(value == null || value.isEmpty){
+                              return 'Please enter the value';
+                            }
+                            return null;
+                          },
+
+                          initialValue: activity['Description'],
+                          shape: kBottomRounded,
+                          label: 'Game Description*',
+                          hintText: 'Enter Game Description',
+                          maxLines: 7,
+                          minLines: 4,
+                          onChanged: (value){
+                            description = value;
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding:const EdgeInsets.all(20),
+                          decoration:const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: kSecondaryColor,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: RoundedViewDetailsButton(
+                                  title: 'Update',
+                                  onPressed: () async{
+                                    if(_formKey.currentState!.validate()){
+                                      setState(() {
+                                        showSpinner = true;
+                                        name ??= activity['Name'];
+                                        location ??= activity['Location'];
+                                        price ??= activity['Price'];
+                                        description ??= activity['Description'];
+                                      });
+                                      await FirebaseFirestore.instance.collection('activities').doc(widget.activity.reference.id).update({
+                                        'Name' : name,
+                                        'Location' : location,
+                                        'Price' : price,
+                                        'Description' : description,
+                                      }).then((value) {
+                                        setState(() {
+                                          showSpinner = false;
+                                        });
+                                        Navigator.pop(context);
+                                        showToast(
+                                          message: 'Edited Successfully',
+                                          color: Colors.green,
+                                        );
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: RoundedViewDetailsButton(
+                                  title: 'Next>',
+                                  onPressed: () {
+                                    Navigator
+                                        .push(context, MaterialPageRoute(builder: (context){
+                                      return UpdateGameSecondary(activity: widget.activity);
+                                    }));
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
               else{

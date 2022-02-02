@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tembea/screens/admin/admin_components/admin_analysis.dart';
@@ -54,9 +55,6 @@ class AdminInfoAnalysis extends StatelessWidget {
               color: Colors.white70,
             ),
           ),
-
-          ProgressLine(color: info.color!, percentage: info.percentage!),
-
           Text(
             info.total!,
             style: TextStyle(
@@ -76,42 +74,6 @@ class AdminInfoAnalysis extends StatelessWidget {
   }
 }
 
-class ProgressLine extends StatelessWidget {
-  const ProgressLine({
-    Key? key,
-    this.color = kPrimaryColor,
-    required this.percentage,
-  }) : super(key: key);
-
-  final Color color;
-  final int percentage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: 5,
-          decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: const BorderRadius.all(Radius.circular(10,))
-          ),
-        ),
-        LayoutBuilder(builder: (context, constraints) => Container(
-          width: constraints.maxWidth * (percentage/100),
-          height: 5,
-          decoration: BoxDecoration(
-              color: color,
-              borderRadius: const BorderRadius.all(Radius.circular(10,))
-          ),
-        ),
-        ),
-      ],
-    );
-  }
-}
-
 class AdminInfoGrid extends StatelessWidget {
   const AdminInfoGrid({
     Key? key,
@@ -123,18 +85,44 @@ class AdminInfoGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: adminAnalysis.length,
-      shrinkWrap: true,
-      gridDelegate:
-      SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 16.0,
-        childAspectRatio: childAspectRatio,
-      ),
-      itemBuilder: (context, index)  => AdminInfoAnalysis(info: adminAnalysis[index],),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('activities').snapshots(),
+      builder: (context, AsyncSnapshot snapshot){
+        if(snapshot.hasData){
+          return GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: adminAnalysis.length,
+            shrinkWrap: true,
+            gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: childAspectRatio,
+            ),
+            itemBuilder: (context, index)  => AdminInfoAnalysis(info: adminAnalysis[index],),
+          );
+        }
+        return Container();
+      },
     );
   }
+}
+
+class AdminAnalysisData {
+  final String? svgSrc, total, title, highRated;
+  final int? percentage;
+  final Color? color;
+  final VoidCallback? onPressed;
+
+  AdminAnalysisData({
+    this.svgSrc,
+    this.title,
+    this.highRated,
+    this.total,
+    this.percentage,
+    this.color,
+    this.onPressed
+  });
 }
